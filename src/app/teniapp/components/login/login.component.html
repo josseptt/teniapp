@@ -1,0 +1,63 @@
+<section class="wrapper">
+  <mat-grid-list style="padding-top: 18vh!important;" cols="3">
+    <mat-grid-tile></mat-grid-tile>
+
+    <!-- Writing markup for login starts -->
+    <mat-grid-tile class='login-element'>
+      <div class="login-container">
+
+        <div class="login-box-header">
+          <span>Login</span>
+        </div>
+
+        <div class="login-box-body">
+          <mat-grid-list cols="9" rowHeight="75px">
+            <mat-grid-tile [rowspan]="1" class="login-icon">
+              <mat-icon>lock</mat-icon>
+            </mat-grid-tile>
+            <mat-grid-tile [colspan]="7">
+              <mat-form-field class="justifier">
+                <input matInput type="email" placeholder="Email" name="email" [formControl]="email"/>
+              </mat-form-field>
+            </mat-grid-tile>
+          </mat-grid-list>
+          <!-- Markup for getting Username ends -->
+
+          <!-- Markup for getting Password starts -->
+          <mat-grid-list cols="9" rowHeight="100px">
+            <mat-grid-tile [rowspan]="1"  class="login-icon">
+              <mat-icon>remove_red_eye</mat-icon>
+            </mat-grid-tile>
+            <mat-grid-tile [colspan]="7">
+              <mat-form-field class="justifier">
+                <input matInput type="password" placeholder="Password" name="passwd" [formControl]="passwd"/>
+              </mat-form-field>
+            </mat-grid-tile>
+          </mat-grid-list>
+          <!-- Markup for getting Password ends -->
+
+          <button mat-raised-button class="login-button">
+            <mat-icon>input</mat-icon> Login
+          </button>
+
+        </div>
+
+      </div>
+    </mat-grid-tile>
+    <!-- Template Body ends -->
+    <!--<mat-card>-->
+    <!--<form [formGroup]="form" (ngSubmit)="login()">-->
+    <!--<mat-form-field>-->
+    <!--<input matInput type="email" placeholder="Email" name="email" [formControl]="email"/>-->
+    <!--&lt;!&ndash;<mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>&ndash;&gt;-->
+    <!--</mat-form-field>-->
+    <!--<mat-form-field>-->
+    <!--<input matInput type="password" placeholder="Password" name="passwd" [formControl]="passwd"/>-->
+    <!--&lt;!&ndash;<mat-error *ngIf="passwd.invalid">{{getErrorMessage()}}</mat-error>&ndash;&gt;-->
+    <!--</mat-form-field>-->
+    <!--<button mat-raised-button type="submit" color="primary">Login</button>-->
+    <!--</form>-->
+    <!--</mat-card>-->
+
+  </mat-grid-list>
+</section>
