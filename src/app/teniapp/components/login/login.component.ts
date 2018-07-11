@@ -1,6 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, Inject} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {Router} from "@angular/router";
 import {AuthService} from '../../services/auth.service';
+import {Users} from '../../models/users';
 
 // const SMALL_WIDTH_BREAKPOINT = 720;
 
@@ -11,28 +13,35 @@ import {AuthService} from '../../services/auth.service';
 })
 export class LoginComponent implements OnInit {
 
+  //CREATE FORM GROUP
   form : FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  hide = true;
+  error = true;
 
+  constructor(private fb : FormBuilder, private router : Router, private authService : AuthService) {
+    //INIT FORM WITH VALUES
     this.form = fb.group({
-      email: ['', [Validators.required]],
-      passwd: ['', Validators.required]
+      username: ['', Validators.required],
+      password: ['', Validators.required]
     });
-
   }
 
-  ngOnInit() {
+  ngOnInit() {}
+
+  login(users: Users) {
+    this.m_login(users);
+    //this.router.navigate(['']);
   }
 
-  login() {
-    if (this.form.valid) {
-      // this.auth.sendToken(this.form.value.email)
-      // this.myRoute.navigate(["home"]);
-    }
-  }
-
-  getErrorMessage(){
-    return false;
+  m_login(users: Users) {
+    this.authService.login(users).then((data) => {
+      this.error = true;
+      if (data != null) {
+        this.router.navigate(['/dashboard']);
+      }
+    }, (err) => {
+      this.error = false;
+    });
   }
 }

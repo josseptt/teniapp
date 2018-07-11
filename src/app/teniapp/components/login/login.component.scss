@@ -6,7 +6,7 @@ Login template using Angular Material
 body{
   background-color: #e91e63;
   font-family: 'Roboto', sans-serif;
-  margin:0px !important;
+  margin:0 !important;
 }
 
 .wrapper{
@@ -27,9 +27,9 @@ body{
     top: 0;
     content: "";
   }
-
 }
 
+/**
 .app-header{
   color: #fff;
   background-color: #e91e63;
@@ -83,4 +83,96 @@ body{
   background-color: #673ab7;
   font-size: 1.5em;
   color: #fff !important;
+}
+
+/*CCS CREADO POR MANUEL*/
+
+.flex-container {
+  display: flex;
+  justify-content: space-around;
+}
+
+.login-container {
+  width: 45%;
+  height: auto;
+
+  padding: 0;
+  margin: 18vh !important;
+
+  -webkit-box-shadow: 2px 4px 58px -20px rgba(0,0,0,1);
+  -moz-box-shadow: 2px 4px 58px -20px rgba(0,0,0,1);
+  box-shadow: 2px 4px 58px -20px rgba(0,0,0,1);
+}
+
+.login-tittle {
+  margin: 0;
+  padding-top: 10px;
+  padding-bottom: 10px;
+
+  color: #fff;
+  text-align: center;
+  vertical-align: middle;
+  font-size: 3em;
+
+  background-color: #673ab7;
+
+  -webkit-box-shadow: 2px 4px 58px -20px rgba(0,0,0,1);
+  -moz-box-shadow: 2px 4px 58px -20px rgba(0,0,0,1);
+  box-shadow: 2px 4px 58px -20px rgba(0,0,0,1);
+}
+
+.login-body {
+  width: auto;
+  height:100%;
+  padding: 5% 5% 5% 5%;
+  color: #d2d2d2;
+}
+
+.login-input {
+  width: 100%;
+  padding-bottom: 2%;
+  color: #727272;
+}
+
+.login-action {
+  text-align: center;
+}
+
+.login-button {
+  width: 90%;
+  padding: 1.5% !important;
+  background-color: #673ab7;
+  font-size: 1.5em;
+  color: #fff !important;
+}
+
+.msg-error {
+  width: 90%;
+
+  background: #fda8c7;
+  padding-top: 3px;
+  padding-bottom: 3px;
+
+  margin-bottom: 5px;
+  margin-left: auto;
+  margin-right: auto;
+
+  border: 1px solid #e91e63;
+  border-radius: 3px;
+
+  color: #e91e63;
+}
+
+@media (max-width: 540px) {
+  .login-container {
+    width: 80%;
+    margin: 12vh !important;
+  }
+
+  .login-tittle {
+    padding-top: 7px;
+    padding-bottom: 7px;
+
+    font-size: 2em;
+  }
 }

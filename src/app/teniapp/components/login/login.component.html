@@ -1,8 +1,38 @@
 <section class="wrapper">
+  <div class="flex-container">
+    <mat-card class="login-container">
+      <mat-card-title class="login-tittle">
+        <span>Login</span>
+      </mat-card-title>
+      <form [formGroup]="form" (ngSubmit)="login(form.value)">
+        <mat-card-content class="login-body">
+          <mat-form-field class="login-input">
+            <input matInput type="text" name="username" placeholder="Username" formControlName="username">
+            <mat-icon matSuffix>lock</mat-icon>
+          </mat-form-field>
+          <br>
+          <mat-form-field class="login-input">
+            <input matInput [type]="hide ? 'password' : 'text'" name="password" placeholder="Password" formControlName="password">
+            <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
+          </mat-form-field>
+
+          <mat-card-actions class="login-action">
+            <div [hidden]="error" class="msg-error"><p>Invalid Username or Password !</p></div>
+            <button [disabled]="!form.valid" mat-raised-button color="primary" class="login-button">Sing in</button>
+          </mat-card-actions>
+        </mat-card-content>
+      </form>
+    </mat-card>
+  </div>
+</section>
+
+<!-- HECHO POR NACHO -->
+<!--
+<section class="wrapper">
   <mat-grid-list style="padding-top: 18vh!important;" cols="3">
     <mat-grid-tile></mat-grid-tile>
 
-    <!-- Writing markup for login starts -->
+    <!-- Writing markup for login starts
     <mat-grid-tile class='login-element'>
       <div class="login-container">
 
@@ -23,7 +53,7 @@
           </mat-grid-list>
           <!-- Markup for getting Username ends -->
 
-          <!-- Markup for getting Password starts -->
+          <!-- Markup for getting Password starts
           <mat-grid-list cols="9" rowHeight="100px">
             <mat-grid-tile [rowspan]="1"  class="login-icon">
               <mat-icon>remove_red_eye</mat-icon>
@@ -34,7 +64,7 @@
               </mat-form-field>
             </mat-grid-tile>
           </mat-grid-list>
-          <!-- Markup for getting Password ends -->
+          <!-- Markup for getting Password ends
 
           <button mat-raised-button class="login-button">
             <mat-icon>input</mat-icon> Login
@@ -57,7 +87,8 @@
     <!--</mat-form-field>-->
     <!--<button mat-raised-button type="submit" color="primary">Login</button>-->
     <!--</form>-->
-    <!--</mat-card>-->
+    <!--</mat-card>
 
   </mat-grid-list>
 </section>
+-->
