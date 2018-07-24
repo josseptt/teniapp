@@ -14,6 +14,9 @@ import { AuthService } from './teniapp/services/auth.service';
 import { MessageDialogComponent } from './teniapp/components/message-dialog/message-dialog.component';
 import { LoginComponent } from './teniapp/components/login/login.component';
 
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { TokenInterceptor } from './teniapp/security/token.interceptor';
+
 const routes: Routes = [
   { path: 'dashboard', loadChildren: './teniapp/teniapp.module#TeniappModule'},
   { path: 'login', component: LoginComponent},
@@ -42,7 +45,12 @@ const routes: Routes = [
     HttpClientModule
   ],
   providers: [
-    AuthService
+    AuthService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })

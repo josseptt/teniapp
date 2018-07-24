@@ -8,8 +8,19 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { DashboardSidenavComponent } from './components/dashboard-sidenav/dashboard-sidenav.component';
 
+import { EmployeesService } from './services/employees.service';
+
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { TokenInterceptor } from './security/token.interceptor';
+import { ProductComponent } from './components/product/product.component';
+import { InventoryComponent } from './components/inventory/inventory.component';
+import { AdministrationComponent } from './components/administration/administration.component';
+
 const routes: Routes = [
   { path: '', component: DashboardSidenavComponent},
+  { path: 'product', component: ProductComponent},
+  { path: 'inventory', component: InventoryComponent},
+  { path: 'admin', component: AdministrationComponent},
   { path: '**', redirectTo: ''}
 ];
 
@@ -25,7 +36,18 @@ const routes: Routes = [
   declarations: [
     TeniappMainComponent,
     DashboardComponent,
-    DashboardSidenavComponent
+    DashboardSidenavComponent,
+    ProductComponent,
+    InventoryComponent,
+    AdministrationComponent
+  ],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true
+    },
+    EmployeesService
   ]
 })
 export class TeniappModule { }

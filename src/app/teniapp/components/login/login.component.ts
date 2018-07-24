@@ -1,4 +1,4 @@
-import {Component, OnInit, Inject} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from "@angular/router";
 import {AuthService} from '../../services/auth.service';
@@ -31,14 +31,13 @@ export class LoginComponent implements OnInit {
 
   login(users: Users) {
     this.m_login(users);
-    //this.router.navigate(['']);
   }
 
   m_login(users: Users) {
     this.authService.login(users).then((data) => {
       this.error = true;
       if (data != null) {
-        this.router.navigate(['/dashboard']);
+        this.router.navigate(['dashboard']);
       }
     }, (err) => {
       this.error = false;
