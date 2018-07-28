@@ -1,3 +1,203 @@
 <div class="wrapper">
-  This is Product
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>
+        Catalogo de Productos
+      </mat-card-title>
+    </mat-card-header>
+
+    <mat-divider></mat-divider>
+
+    <mat-card-content>
+      <br>
+      <mat-form-field>
+        <input matInput (keyup)="searchColor($event.target.value)" placeholder="Buscar">
+      </mat-form-field>
+
+      <mat-tab-group>
+        <!--mat-tab label="Marca"><br>
+          <div class="mat-elevation-z1">
+            <table mat-table matSort [dataSource]="dataSourceProductBrand">
+
+              <!-- Column >
+              <ng-container matColumnDef="id">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+                <td mat-cell *matCellDef="let element"> {{element.id}}</td>
+              </ng-container>
+
+              <!-- Column >
+              <ng-container matColumnDef="productBrandName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</th>
+                <td mat-cell *matCellDef="let element"> {{element.productBrandName}}</td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="columnProductBrand"></tr>
+              <tr mat-row *matRowDef="let row; columns: columnProductBrand;"></tr>
+            </table>
+
+            <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+          </div>
+        </mat-tab>
+        <mat-tab label="Modelo"><br>
+          <div class="mat-elevation-z1">
+            <table mat-table matSort [dataSource]="dataSourceProductModel">
+
+              <!-- Column >
+              <ng-container matColumnDef="id">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> ID</th>
+                <td mat-cell *matCellDef="let element"> {{element.id}}</td>
+              </ng-container>
+
+              <!-- Column >
+              <ng-container matColumnDef="productModelName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</th>
+                <td mat-cell *matCellDef="let element"> {{element.productModelName}}</td>
+              </ng-container>
+
+              <!-- Column >
+              <ng-container matColumnDef="productBrandName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Marca</th>
+                <td mat-cell *matCellDef="let element"> {{element.productBrandName}}</td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="columnProductModel"></tr>
+              <tr mat-row *matRowDef="let row; columns: columnProductModel;"></tr>
+            </table>
+
+            <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+          </div>
+        </mat-tab>
+        <mat-tab-- label="Tamaño"><br>
+          <div class="mat-elevation-z1">
+            <table mat-table matSort [dataSource]="dataSourceSize">
+
+              <!-- Column >
+              <ng-container matColumnDef="id">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+                <td mat-cell *matCellDef="let element"> {{element.id}}</td>
+              </ng-container>
+
+              <!-- Column >
+              <ng-container matColumnDef="sizeName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</th>
+                <td mat-cell *matCellDef="let element"> {{element.sizeName}}</td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="columnSize"></tr>
+              <tr mat-row *matRowDef="let row; columns: columnSize;"></tr>
+            </table>
+
+            <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+          </div>
+        </mat-tab-->
+        <mat-tab label="Color"><br>
+          <div class="mat-elevation-z1">
+            <table mat-table [dataSource]="dataSourceColor" matSort>
+
+              <!-- Checkbox Column -->
+              <ng-container matColumnDef="select">
+                <th mat-header-cell *matHeaderCellDef>Select</th>
+                <td mat-cell *matCellDef="let row">
+                  <mat-checkbox (click)="$event.stopPropagation()"
+                                (change)="$event ? selectedColor(row) : null"
+                                [checked]="selectColor.isSelected(row)">
+                  </mat-checkbox>
+                </td>
+              </ng-container>
+
+              <!-- Column -->
+              <ng-container matColumnDef="id">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+                <td mat-cell *matCellDef="let element">{{element.id}}</td>
+              </ng-container>
+
+              <!-- Column -->
+              <ng-container matColumnDef="colorName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</th>
+                <td mat-cell *matCellDef="let element">{{element.colorName}}</td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="columnColor"></tr>
+              <tr mat-row *matRowDef="let row; columns: columnColor;" (click)="selectedColor(row)"></tr>
+            </table>
+
+            <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+
+      <button mat-raised-button color="primary"><mat-icon>add</mat-icon>Agregar</button>
+      <button mat-raised-button [disabled]="idColorSelected == 0"><mat-icon>cached</mat-icon>Modificar</button>
+      <button mat-raised-button color="warn" [disabled]="idColorSelected == 0"><mat-icon>clear</mat-icon>Eliminar</button>
+    </mat-card-content>
+  </mat-card>
+
+  <br>
+
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>
+        Productos
+      </mat-card-title>
+    </mat-card-header>
+
+    <mat-divider></mat-divider>
+
+    <!--mat-card-content>
+      <br>
+
+      <mat-form-field>
+        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+      </mat-form-field>
+
+      <div class="mat-elevation-z1">
+        <table mat-table matSort [dataSource]="dataSourceProduct">
+
+          <!-- Column >
+          <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+            <td mat-cell *matCellDef="let element"> {{element.id}}</td>
+          </ng-container>
+
+          <!-- Column >
+          <ng-container matColumnDef="productName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</th>
+            <td mat-cell *matCellDef="let element"> {{element.productName}}</td>
+          </ng-container>
+
+          <!-- Column >
+          <ng-container matColumnDef="productBrandName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Marca</th>
+            <td mat-cell *matCellDef="let element"> {{element.productBrandName}}</td>
+          </ng-container>
+
+          <!-- Column >
+          <ng-container matColumnDef="productModelName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Modelo</th>
+            <td mat-cell *matCellDef="let element"> {{element.productModelName}}</td>
+          </ng-container>
+
+          <!-- Column >
+          <ng-container matColumnDef="colorName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Color</th>
+            <td mat-cell *matCellDef="let element"> {{element.colorName}}</td>
+          </ng-container>
+
+          <!-- Column >
+          <ng-container matColumnDef="sizeName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Tamaño</th>
+            <td mat-cell *matCellDef="let element"> {{element.sizeName}}</td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="columnsProduct"></tr>
+          <tr mat-row *matRowDef="let row; columns: columnsProduct;"></tr>
+        </table>
+
+        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+      </div>
+      <button mat-raised-button color="primary"><mat-icon>add</mat-icon>Agregar</button>
+      <button mat-raised-button><mat-icon>cached</mat-icon>Modificar</button>
+      <button mat-raised-button color="warn"><mat-icon>clear</mat-icon>Eliminar</button>
+    </mat-card-content-->
+  </mat-card>
 </div>

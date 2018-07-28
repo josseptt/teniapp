@@ -31,7 +31,7 @@ export class DashboardSidenavComponent implements OnDestroy {
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
 
-    this.container = 0;
+    this.container = 1;
     this.getrole();
   }
 

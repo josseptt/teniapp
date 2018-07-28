@@ -5,7 +5,6 @@ import {constants} from '../utils/constants';
 @Injectable({
   providedIn: 'root'
 })
-
 export class EmployeesService {
 
   constructor(public http: HttpClient) {}

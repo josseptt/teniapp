@@ -9,6 +9,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { DashboardSidenavComponent } from './components/dashboard-sidenav/dashboard-sidenav.component';
 
 import { EmployeesService } from './services/employees.service';
+import { ProductService } from './services/product.service';
 
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from './security/token.interceptor';
@@ -47,7 +48,8 @@ const routes: Routes = [
       useClass: TokenInterceptor,
       multi: true
     },
-    EmployeesService
+    EmployeesService,
+    ProductService
   ]
 })
 export class TeniappModule { }
