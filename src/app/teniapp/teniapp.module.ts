@@ -19,6 +19,7 @@ import { AdministrationComponent } from './components/administration/administrat
 import { ColorDialogComponent } from './components/product/color-dialog/color-dialog.component';
 import { ConfirmDialogComponent } from './components/dialogs/confirm-dialog/confirm-dialog.component';
 import { InfoDialogComponent } from './components/dialogs/info-dialog/info-dialog.component';
+import { SizeDialogComponent } from './components/product/size-dialog/size-dialog.component';
 
 const routes: Routes = [
   { path: '', component: DashboardSidenavComponent},
@@ -46,7 +47,8 @@ const routes: Routes = [
     AdministrationComponent,
     ColorDialogComponent,
     ConfirmDialogComponent,
-    InfoDialogComponent
+    InfoDialogComponent,
+    SizeDialogComponent
   ],
   providers: [
     {
@@ -59,6 +61,7 @@ const routes: Routes = [
   ],
   entryComponents: [
     ColorDialogComponent,
+    SizeDialogComponent,
     ConfirmDialogComponent,
     InfoDialogComponent
   ]

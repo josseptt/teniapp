@@ -5,12 +5,12 @@
 
   <div mat-dialog-content>
     <mat-form-field>
-      <input matInput [(ngModel)]="color.colorName" placeholder="Color">
+      <input matInput [(ngModel)]="size.sizeName" placeholder="Tamaño/Talla">
     </mat-form-field>
   </div>
 
   <div mat-dialog-actions>
     <button mat-raised-button color="warn" (click)="onNoClick()">Cancelar</button>
-    <button mat-raised-button color="primary" [mat-dialog-close]="color.colorName" cdkFocusInitial>Guardar</button>
+    <button mat-raised-button color="primary" [mat-dialog-close]="size.sizeName" cdkFocusInitial>Guardar</button>
   </div>
 </div>
