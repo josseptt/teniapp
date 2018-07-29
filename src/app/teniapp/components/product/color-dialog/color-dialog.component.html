@@ -1,0 +1,16 @@
+<div class="wrap-dialog">
+  <h1 mat-dialog-title>{{title}}</h1>
+
+  <mat-divider></mat-divider>
+
+  <div mat-dialog-content>
+      <mat-form-field>
+        <input matInput [(ngModel)]="color.colorName" placeholder="Color">
+      </mat-form-field>
+  </div>
+
+  <div mat-dialog-actions>
+    <button mat-raised-button color="warn" (click)="onNoClick()">Cancelar</button>
+    <button mat-raised-button color="primary" [mat-dialog-close]="color.colorName" cdkFocusInitial>Guardar</button>
+  </div>
+</div>

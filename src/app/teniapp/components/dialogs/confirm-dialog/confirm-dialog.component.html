@@ -1,0 +1,14 @@
+<div class="wrap-dialog">
+  <h1 mat-dialog-title>Confirmar accion?</h1>
+
+  <mat-divider></mat-divider>
+
+  <div mat-dialog-content>
+    <h3>{{data}}</h3>
+  </div>
+
+  <div mat-dialog-actions>
+    <button mat-raised-button color="warn" (click)="onNoClick()">No</button>
+    <button mat-raised-button color="primary" [mat-dialog-close]="confirm" cdkFocusInitial>Si</button>
+  </div>
+</div>

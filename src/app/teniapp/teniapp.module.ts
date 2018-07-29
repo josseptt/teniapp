@@ -16,6 +16,9 @@ import { TokenInterceptor } from './security/token.interceptor';
 import { ProductComponent } from './components/product/product.component';
 import { InventoryComponent } from './components/inventory/inventory.component';
 import { AdministrationComponent } from './components/administration/administration.component';
+import { ColorDialogComponent } from './components/product/color-dialog/color-dialog.component';
+import { ConfirmDialogComponent } from './components/dialogs/confirm-dialog/confirm-dialog.component';
+import { InfoDialogComponent } from './components/dialogs/info-dialog/info-dialog.component';
 
 const routes: Routes = [
   { path: '', component: DashboardSidenavComponent},
@@ -40,7 +43,10 @@ const routes: Routes = [
     DashboardSidenavComponent,
     ProductComponent,
     InventoryComponent,
-    AdministrationComponent
+    AdministrationComponent,
+    ColorDialogComponent,
+    ConfirmDialogComponent,
+    InfoDialogComponent
   ],
   providers: [
     {
@@ -50,6 +56,11 @@ const routes: Routes = [
     },
     EmployeesService,
     ProductService
+  ],
+  entryComponents: [
+    ColorDialogComponent,
+    ConfirmDialogComponent,
+    InfoDialogComponent
   ]
 })
 export class TeniappModule { }
