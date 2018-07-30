@@ -13,6 +13,8 @@ import {ConfirmDialogComponent} from '../dialogs/confirm-dialog/confirm-dialog.c
 import {InfoDialogComponent} from '../dialogs/info-dialog/info-dialog.component';
 import {FormControl} from '@angular/forms';
 import {SizeDialogComponent} from './size-dialog/size-dialog.component';
+import {ProductBrandDialogComponent} from './product-brand-dialog/product-brand-dialog.component';
+import {ProductModelDialogComponent} from './product-model-dialog/product-model-dialog.component';
 
 @Component({
   selector: 'app-product',
@@ -26,11 +28,13 @@ export class ProductComponent implements OnInit {
   idSelected: number = 0;
   idProductSelected: number = 0;
 
-  columnColor: string[] = ['select', 'id', 'colorName'];
-  columnSize: string[] = ['select', 'id', 'sizeName'];
-  columnProductModel: string[] = ['select', 'id', 'productModelName', 'productBrandName'];
-  columnProductBrand: string[] = ['select', 'id', 'productBrandName'];
-  columnProduct: string[] = ['id', 'productName', 'productBrandName', 'productModelName', 'colorName', 'sizeName'];
+  column: string[][] = [
+    ['select', 'id', 'colorName'],
+    ['select', 'id', 'sizeName'],
+    ['select', 'id', 'productModelName', 'productBrandName'],
+    ['select', 'id', 'productBrandName'],
+    ['select', 'id', 'productName', 'productBrandName', 'productModelName', 'colorName', 'sizeName']
+  ];
 
   elementColor: Color[];
   elementSize: Size[];
@@ -79,6 +83,8 @@ export class ProductComponent implements OnInit {
     this.productService.colorList().then((data: any[]) => {
       this.elementColor = data;
       this.dataSourceColor = new MatTableDataSource<Color>(this.elementColor);
+      this.dataSourceColor.paginator = this.colorPaginator;
+      this.dataSourceColor.sort = this.colorSort;
     }, (err) => {
       console.log(err);
     });
@@ -99,6 +105,8 @@ export class ProductComponent implements OnInit {
     this.productService.productModelList().then((data: any[]) => {
       this.elementProductModel = data;
       this.dataSourceProductModel = new MatTableDataSource<ProductModel>(this.elementProductModel);
+      this.dataSourceProductModel.paginator = this.productModelPaginator;
+      this.dataSourceProductModel.sort = this.productModelSort;
     }, (err) => {
       console.log(err);
     });
@@ -108,6 +116,8 @@ export class ProductComponent implements OnInit {
     this.productService.productBrandList().then((data: any[]) => {
       this.elementProductBrand = data;
       this.dataSourceProductBrand = new MatTableDataSource<ProductBrand>(this.elementProductBrand);
+      this.dataSourceProductBrand.paginator = this.productBrandPaginator;
+      this.dataSourceProductBrand.sort = this.productBrandSort;
     }, (err) => {
       console.log(err);
     });
@@ -131,8 +141,10 @@ export class ProductComponent implements OnInit {
   update() {
     switch (this.selected.value) {
       case 0:
+        this.updateProductBrand();
         break;
       case 1:
+        this.updateProductModel();
         break;
       case 2:
         this.updateSize();
@@ -158,7 +170,9 @@ export class ProductComponent implements OnInit {
           this.productService.updateColor(color, this.idSelected).then((data: any) => {
             this.getColors();
           }, (err) => {
-            console.log(err);
+            this.dialog.open(InfoDialogComponent, {
+              width: '450px', data: 'El color: ' + color.colorName + ' ya existe.'
+            });
           });
         }
         this.selectColor.clear();
@@ -184,7 +198,9 @@ export class ProductComponent implements OnInit {
           this.productService.updateSize(size, this.idSelected).then((data: any) => {
             this.getSizes();
           }, (err) => {
-            console.log(err);
+            this.dialog.open(InfoDialogComponent, {
+              width: '450px', data: 'El tamaño: ' + size.sizeName + ' ya existe.'
+            });
           });
         }
         this.selectSize.clear();
@@ -195,11 +211,74 @@ export class ProductComponent implements OnInit {
     });
   }
 
+  updateProductBrand(): void {
+    this.productService.getProductBrand(this.idSelected).then((data: any) => {
+      const dialogRef = this.dialog.open(ProductBrandDialogComponent, {
+        width: '450px', data: data
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        if (result !== undefined) {
+          let productBrandName = {
+            productBrandName: result
+          };
+
+          this.productService.updateProductBrand(productBrandName, this.idSelected).then((data: any) => {
+            this.getProductBrands();
+          }, (err) => {
+            this.dialog.open(InfoDialogComponent, {
+              width: '450px', data: 'La marca: ' + productBrandName.productBrandName + ' ya existe.'
+            });
+          });
+        }
+        this.selectProductBrand.clear();
+        this.idSelected = 0;
+      });
+    }, (err) => {
+      console.log(err);
+    });
+  }
+
+  updateProductModel(): void {
+    this.productService.getProductModel(this.idSelected).then((data: any) => {
+      const dialogRef = this.dialog.open(ProductModelDialogComponent, {
+        width: '450px', data: data
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        if (result !== undefined) {
+          let productBrand = {
+            id: result.productBrandName
+          };
+
+          let productModelName = {
+            productModelName: result.productModelName,
+            productBrand: productBrand
+          };
+
+          this.productService.updateProductModel(productModelName, this.idSelected).then((data: any) => {
+            this.getProductModels();
+          }, (err) => {
+            this.dialog.open(InfoDialogComponent, {
+              width: '450px', data: 'La marca: ' + productModelName.productModelName + ' ya existe.'
+            });
+          });
+        }
+        this.selectProductModel.clear();
+        this.idSelected = 0;
+      });
+    }, (err) => {
+      console.log(err);
+    });
+  }
+
   delete() {
     switch (this.selected.value) {
       case 0:
+        this.deleteProductBrand();
         break;
       case 1:
+        this.deleteProductModel();
         break;
       case 2:
         this.deleteSize();
@@ -225,7 +304,8 @@ export class ProductComponent implements OnInit {
             this.productService.deleteColor(this.idSelected).then((data: any) => {
               this.dialog.open(InfoDialogComponent, {
                 width: '450px', data: "Color Eliminado con Exito!"
-              })
+              });
+              this.getColors();
             }, (err) => {
               console.log(err);
             });
@@ -254,7 +334,8 @@ export class ProductComponent implements OnInit {
             this.productService.deleteSize(this.idSelected).then((data: any) => {
               this.dialog.open(InfoDialogComponent, {
                 width: '450px', data: "Tamaño Eliminado con Exito!"
-              })
+              });
+              this.getSizes();
             }, (err) => {
               console.log(err);
             });
@@ -268,11 +349,73 @@ export class ProductComponent implements OnInit {
     });
   }
 
+  deleteProductBrand(): void {
+    this.productService.getProductBrand(this.idSelected).then((data: any) => {
+      let productBrand = data;
+
+      if (productBrand.active) {
+        const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+          width: '450px', data: "Esta seguro que desea eliminar esta marca: " + productBrand.productBrandName +"?"
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+          console.log(result);
+          if (result) {
+            this.productService.deleteProductBrand(this.idSelected).then((data: any) => {
+              this.dialog.open(InfoDialogComponent, {
+                width: '450px', data: "Marca Eliminada con Exito!"
+              });
+              this.getProductBrands();
+            }, (err) => {
+              console.log(err);
+            });
+          }
+          this.selectProductBrand.clear();
+          this.idSelected = 0;
+        });
+      }
+    }, (err) => {
+      console.log(err);
+    });
+  }
+
+  deleteProductModel(): void {
+    this.productService.getProductModel(this.idSelected).then((data: any) => {
+      let productModel = data;
+
+      if (productModel.active) {
+        const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+          width: '450px', data: "Esta seguro que desea eliminar este modelo: " + productModel.productModelName +"?"
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+          console.log(result);
+          if (result) {
+            this.productService.deleteProductModel(this.idSelected).then((data: any) => {
+              this.dialog.open(InfoDialogComponent, {
+                width: '450px', data: "Modelo Eliminado con Exito!"
+              });
+              this.getProductModels();
+            }, (err) => {
+              console.log(err);
+            });
+          }
+          this.selectProductModel.clear();
+          this.idSelected = 0;
+        });
+      }
+    }, (err) => {
+      console.log(err);
+    });
+  }
+
   insert() {
     switch (this.selected.value) {
       case 0:
+        this.insertProductBrand();
         break;
       case 1:
+        this.insertProductModel();
         break;
       case 2:
         this.insertSize();
@@ -287,7 +430,7 @@ export class ProductComponent implements OnInit {
     const dialogRef = this.dialog.open(ColorDialogComponent, {
       width: '450px', data: {
         id: 0,
-        colorName : '',
+        colorName: '',
         active: false
       }
     });
@@ -301,7 +444,9 @@ export class ProductComponent implements OnInit {
         this.productService.addColor(color).then((data: any) => {
           this.getColors();
         }, (err) => {
-          console.log(err);
+          this.dialog.open(InfoDialogComponent, {
+            width: '450px', data: 'El color: ' + color.colorName + ' ya existe.'
+          });
         });
       }
     });
@@ -311,7 +456,7 @@ export class ProductComponent implements OnInit {
     const dialogRef = this.dialog.open(SizeDialogComponent, {
       width: '450px', data: {
         id: 0,
-        sizeName : '',
+        sizeName: '',
         active: false
       }
     });
@@ -325,7 +470,67 @@ export class ProductComponent implements OnInit {
         this.productService.addSize(size).then((data: any) => {
           this.getSizes();
         }, (err) => {
-          console.log(err);
+          this.dialog.open(InfoDialogComponent, {
+            width: '450px', data: 'El tamaño: ' + size.sizeName + ' ya existe.'
+          });
+        });
+      }
+    });
+  }
+
+  insertProductBrand(): void {
+    const dialogRef = this.dialog.open(ProductBrandDialogComponent, {
+      width: '450px', data: {
+        id: 0,
+        productBrandName: '',
+        active: false
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result !== undefined) {
+        let productBrand = {
+          productBrandName: result
+        };
+
+        this.productService.addProductBrand(productBrand).then((data: any) => {
+          this.getProductBrands();
+        }, (err) => {
+          this.dialog.open(InfoDialogComponent, {
+            width: '450px', data: 'La marca: ' + productBrand.productBrandName + ' ya existe.'
+          });
+        });
+      }
+    });
+  }
+
+  insertProductModel(): void {
+    const dialogRef = this.dialog.open(ProductModelDialogComponent, {
+      width: '450px', data: {
+        id: 0,
+        productModelName: '',
+        productBrandName: '',
+        active: false
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result !== undefined) {
+        let productBrand = {
+          id: result.productBrandName
+        };
+
+        let productModel = {
+          productModelName: result.productModelName,
+          productBrand: productBrand
+        };
+
+        this.productService.addProductModel(productModel).then((data: any) => {
+          this.getProductModels();
+        }, (err) => {
+          this.dialog.open(InfoDialogComponent, {
+            width: '450px', data: 'El modelo: ' + productModel.productModelName + ' ya existe.'
+          });
         });
       }
     });
@@ -476,22 +681,38 @@ export class ProductComponent implements OnInit {
     setTimeout(() => {
       switch (this.selected.value) {
         case 0:
-          !this.dataSourceProductBrand.paginator ? this.dataSourceProductBrand.paginator = this.productBrandPaginator : null;
-          !this.dataSourceProductBrand.sort ? this.dataSourceProductBrand.sort = this.productBrandSort : null;
+          this.setProductBrandPaginator();
           break;
         case 1:
-          !this.dataSourceProductModel.paginator ? this.dataSourceProductModel.paginator = this.productModelPaginator : null;
-          !this.dataSourceProductModel.sort ? this.dataSourceProductModel.sort = this.productModelSort : null;
+          this.setProductModelPaginator();
           break;
         case 2:
-          !this.dataSourceSize.paginator ? this.dataSourceSize.paginator = this.sizePaginator : null;
-          !this.dataSourceSize.sort ? this.dataSourceSize.sort = this.sizeSort : null;
+          this.setSizePaginator();
           break;
         case 3:
-          !this.dataSourceColor.paginator ? this.dataSourceColor.paginator = this.colorPaginator : null;
-          !this.dataSourceColor.sort ? this.dataSourceColor.sort = this.colorSort : null;
+          this.setColorPaginator();
           break;
       }
     });
+  }
+
+  setColorPaginator() {
+    !this.dataSourceColor.paginator ? this.dataSourceColor.paginator = this.colorPaginator : null;
+    !this.dataSourceColor.sort ? this.dataSourceColor.sort = this.colorSort : null;
+  }
+
+  setSizePaginator() {
+    !this.dataSourceSize.paginator ? this.dataSourceSize.paginator = this.sizePaginator : null;
+    !this.dataSourceSize.sort ? this.dataSourceSize.sort = this.sizeSort : null;
+  }
+
+  setProductModelPaginator() {
+    !this.dataSourceProductModel.paginator ? this.dataSourceProductModel.paginator = this.productModelPaginator : null;
+    !this.dataSourceProductModel.sort ? this.dataSourceProductModel.sort = this.productModelSort : null;
+  }
+
+  setProductBrandPaginator() {
+    !this.dataSourceProductBrand.paginator ? this.dataSourceProductBrand.paginator = this.productBrandPaginator : null;
+    !this.dataSourceProductBrand.sort ? this.dataSourceProductBrand.sort = this.productBrandSort : null;
   }
 }

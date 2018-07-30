@@ -1,0 +1,21 @@
+<div class="wrap-dialog">
+  <h1 mat-dialog-title>{{title}}</h1>
+
+  <mat-divider></mat-divider>
+
+  <div mat-dialog-content>
+    <mat-select [(value)]="productModel.productBrandName" placeholder="Seleccione Marca">
+      <mat-option *ngFor="let brand of productBrandList" [value]="brand.id">
+        {{brand.productBrandName}}
+      </mat-option>
+    </mat-select>
+    <mat-form-field>
+      <input matInput [(ngModel)]="productModel.productModelName" placeholder="Modelo">
+    </mat-form-field>
+  </div>
+
+  <div mat-dialog-actions>
+    <button mat-raised-button color="warn" (click)="onNoClick()">Cancelar</button>
+    <button mat-raised-button color="primary" [mat-dialog-close]="productModel" cdkFocusInitial>Guardar</button>
+  </div>
+</div>

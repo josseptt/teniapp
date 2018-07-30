@@ -20,6 +20,9 @@ import { ColorDialogComponent } from './components/product/color-dialog/color-di
 import { ConfirmDialogComponent } from './components/dialogs/confirm-dialog/confirm-dialog.component';
 import { InfoDialogComponent } from './components/dialogs/info-dialog/info-dialog.component';
 import { SizeDialogComponent } from './components/product/size-dialog/size-dialog.component';
+import { ProductBrandDialogComponent } from './components/product/product-brand-dialog/product-brand-dialog.component';
+import { ProductModelDialogComponent } from './components/product/product-model-dialog/product-model-dialog.component';
+import { ProductDialogComponent } from './components/product/product-dialog/product-dialog.component';
 
 const routes: Routes = [
   { path: '', component: DashboardSidenavComponent},
@@ -48,7 +51,10 @@ const routes: Routes = [
     ColorDialogComponent,
     ConfirmDialogComponent,
     InfoDialogComponent,
-    SizeDialogComponent
+    SizeDialogComponent,
+    ProductBrandDialogComponent,
+    ProductModelDialogComponent,
+    ProductDialogComponent
   ],
   providers: [
     {
@@ -62,6 +68,9 @@ const routes: Routes = [
   entryComponents: [
     ColorDialogComponent,
     SizeDialogComponent,
+    ProductBrandDialogComponent,
+    ProductModelDialogComponent,
+    ProductComponent,
     ConfirmDialogComponent,
     InfoDialogComponent
   ]

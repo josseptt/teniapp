@@ -11,7 +11,7 @@ export class EmployeesService {
 
   getEmployees(user: string) {
     return new Promise((resolve, reject) => {
-      this.http.get('http://192.81.218.205:8100/api/v1/employees/get/users/' + user).subscribe((res: any) => {
+      this.http.get('http://' + constants.URL + ':8100/api/v1/employees/get/users/' + user).subscribe((res: any) => {
         localStorage.setItem(constants.ID_USER, res.id);
         resolve(res);
       }, (err) => {
@@ -22,7 +22,7 @@ export class EmployeesService {
 
   getRoleByUsers(iduser) {
     return new Promise((resolve, reject) => {
-      this.http.get('http://192.81.218.205:8100/api/v1/users/rolebyusers/' + iduser).subscribe((res: any) => {
+      this.http.get('http://' + constants.URL + ':8100/api/v1/users/rolebyusers/' + iduser).subscribe((res: any) => {
         resolve(res);
       }, (err) => {
         reject(err);
@@ -32,7 +32,7 @@ export class EmployeesService {
 
   getPermissionByRole(idrole) {
     return new Promise((resolve, reject) => {
-      this.http.get('http://192.81.218.205:8100/api/v1/role/permissionbyrole/' + idrole).subscribe((res: any) => {
+      this.http.get('http://' + constants.URL + ':8100/api/v1/role/permissionbyrole/' + idrole).subscribe((res: any) => {
         resolve(res);
       }, (err) => {
         reject(err);

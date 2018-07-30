@@ -23,7 +23,7 @@ export class AuthService {
 
   login(users: Users) {
     return new Promise((resolve, reject) => {
-      this.http.post('http://192.81.218.205:8100/api/v1/auth/login', users).subscribe((res: any) => {
+      this.http.post('http://' + constants.URL + ':8100/api/v1/auth/login', users).subscribe((res: any) => {
         localStorage.setItem(constants.TOKEN, res.token);
         resolve(res);
       }, (err) => {
