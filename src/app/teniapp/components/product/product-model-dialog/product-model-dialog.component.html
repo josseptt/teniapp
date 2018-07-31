@@ -4,7 +4,7 @@
   <mat-divider></mat-divider>
 
   <div mat-dialog-content>
-    <mat-select [(value)]="productModel.productBrandName" placeholder="Seleccione Marca">
+    <mat-select [(value)]="productModel.productBrandId" placeholder="Seleccione Marca">
       <mat-option *ngFor="let brand of productBrandList" [value]="brand.id">
         {{brand.productBrandName}}
       </mat-option>

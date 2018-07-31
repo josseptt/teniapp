@@ -219,15 +219,15 @@ export class ProductComponent implements OnInit {
 
       dialogRef.afterClosed().subscribe(result => {
         if (result !== undefined) {
-          let productBrandName = {
+          let productBrand = {
             productBrandName: result
           };
 
-          this.productService.updateProductBrand(productBrandName, this.idSelected).then((data: any) => {
+          this.productService.updateProductBrand(productBrand, this.idSelected).then((data: any) => {
             this.getProductBrands();
           }, (err) => {
             this.dialog.open(InfoDialogComponent, {
-              width: '450px', data: 'La marca: ' + productBrandName.productBrandName + ' ya existe.'
+              width: '450px', data: 'La marca: ' + productBrand.productBrandName + ' ya existe.'
             });
           });
         }
@@ -241,31 +241,47 @@ export class ProductComponent implements OnInit {
 
   updateProductModel(): void {
     this.productService.getProductModel(this.idSelected).then((data: any) => {
-      const dialogRef = this.dialog.open(ProductModelDialogComponent, {
-        width: '450px', data: data
-      });
+      let productModel = data;
 
-      dialogRef.afterClosed().subscribe(result => {
-        if (result !== undefined) {
-          let productBrand = {
-            id: result.productBrandName
-          };
+      this.productService.productBrandList().then((data: any[]) => {
+        data.forEach((element) => {
+          if (element.productBrandName === productModel.productBrandName) {
 
-          let productModelName = {
-            productModelName: result.productModelName,
-            productBrand: productBrand
-          };
-
-          this.productService.updateProductModel(productModelName, this.idSelected).then((data: any) => {
-            this.getProductModels();
-          }, (err) => {
-            this.dialog.open(InfoDialogComponent, {
-              width: '450px', data: 'La marca: ' + productModelName.productModelName + ' ya existe.'
+            /*SHOW DIALOG*/
+            const dialogRef = this.dialog.open(ProductModelDialogComponent, {
+              width: '450px', data: {
+                id: productModel.id,
+                productModelName: productModel.productModelName,
+                productBrandId: element.id,
+                active: productModel.active
+              }
             });
-          });
-        }
-        this.selectProductModel.clear();
-        this.idSelected = 0;
+
+            dialogRef.afterClosed().subscribe(result => {
+              if (result !== undefined) {
+                let productBrand = {
+                  id: result.productBrandId
+                };
+
+                let productModel = {
+                  productModelName: result.productModelName,
+                  productBrand: productBrand
+                };
+
+                this.productService.updateProductModel(productModel, this.idSelected).then((data: any) => {
+                  this.getProductModels();
+                }, (err) => {
+                  this.dialog.open(InfoDialogComponent, {
+                    width: '450px', data: 'El modelo: ' + productModel.productModelName + ' ya existe.'
+                  });
+                });
+              }
+              this.selectProductModel.clear();
+              this.idSelected = 0;
+            });
+            return;
+          }
+        });
       });
     }, (err) => {
       console.log(err);
@@ -509,7 +525,7 @@ export class ProductComponent implements OnInit {
       width: '450px', data: {
         id: 0,
         productModelName: '',
-        productBrandName: '',
+        productBrandId: 0,
         active: false
       }
     });
@@ -517,7 +533,7 @@ export class ProductComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result !== undefined) {
         let productBrand = {
-          id: result.productBrandName
+          id: result.productBrandId
         };
 
         let productModel = {

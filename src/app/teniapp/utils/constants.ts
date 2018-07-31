@@ -15,5 +15,5 @@ export const constants = {
   /**
    * URL TO USE FOR REQUEST API
    */
-  URL: enviroments.URL_DEV
+  URL: enviroments.URL_PROD
 };

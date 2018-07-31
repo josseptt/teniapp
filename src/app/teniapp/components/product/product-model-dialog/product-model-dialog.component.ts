@@ -3,7 +3,6 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {ProductBrand} from '../../../models/product-brand';
 import {ProductModel} from '../../../models/product-model';
 import {ProductService} from '../../../services/product.service';
-import {logging} from 'selenium-webdriver';
 
 @Component({
   selector: 'app-product-model-dialog',
@@ -16,7 +15,8 @@ export class ProductModelDialogComponent implements OnInit {
 
   productBrandList: ProductBrand[];
 
-  constructor(public dialogRef: MatDialogRef<ProductModelDialogComponent>, @Inject(MAT_DIALOG_DATA) public productModel: ProductModel, public product: ProductService) {
+  constructor(public dialogRef: MatDialogRef<ProductModelDialogComponent>, @Inject(MAT_DIALOG_DATA) public productModel: ProductModel,
+              public product: ProductService) {
     console.log(productModel);
     if (this.productModel.id === 0) this.title = "Insertar Modelo"; else this.title = "Modificar Modelo";
   }

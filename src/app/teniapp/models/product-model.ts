@@ -1,6 +1,6 @@
 export class ProductModel {
   id: number;
   productModelName: string;
-  productBrandName: string;
+  productBrandId: number;
   active: boolean;
 }
