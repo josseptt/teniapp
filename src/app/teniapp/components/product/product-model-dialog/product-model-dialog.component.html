@@ -3,19 +3,21 @@
 
   <mat-divider></mat-divider>
 
-  <div mat-dialog-content>
-    <mat-select [(value)]="productModel.productBrandId" placeholder="Seleccione Marca">
-      <mat-option *ngFor="let brand of productBrandList" [value]="brand.id">
-        {{brand.productBrandName}}
-      </mat-option>
-    </mat-select>
-    <mat-form-field>
-      <input matInput [(ngModel)]="productModel.productModelName" placeholder="Modelo">
-    </mat-form-field>
-  </div>
+  <form [formGroup]="form" (ngSubmit)="save()">
+    <div mat-dialog-content>
+      <mat-select [(value)]="productModel.productBrandId" placeholder="Seleccione Marca">
+        <mat-option *ngFor="let brand of productBrandList" [value]="brand.id">
+          {{brand.productBrandName}}
+        </mat-option>
+      </mat-select>
+      <mat-form-field>
+        <input matInput placeholder="Modelo" formControlName="txt_productModel">
+      </mat-form-field>
+    </div>
 
-  <div mat-dialog-actions>
-    <button mat-raised-button color="warn" (click)="onNoClick()">Cancelar</button>
-    <button mat-raised-button color="primary" [mat-dialog-close]="productModel" cdkFocusInitial>Guardar</button>
-  </div>
+    <div mat-dialog-actions>
+      <button mat-raised-button color="warn" (click)="onNoClick()">Cancelar</button>
+      <button [disabled]="!form.valid" mat-raised-button color="primary" cdkFocusInitial>Guardar</button>
+    </div>
+  </form>
 </div>

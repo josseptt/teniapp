@@ -3,6 +3,7 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {ProductBrand} from '../../../models/product-brand';
 import {ProductModel} from '../../../models/product-model';
 import {ProductService} from '../../../services/product.service';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-product-model-dialog',
@@ -11,18 +12,28 @@ import {ProductService} from '../../../services/product.service';
 })
 export class ProductModelDialogComponent implements OnInit {
 
+  //CREATE FORM GROUP
+  form : FormGroup;
+
   title: string;
+  click: string = 'guardar';
 
   productBrandList: ProductBrand[];
 
-  constructor(public dialogRef: MatDialogRef<ProductModelDialogComponent>, @Inject(MAT_DIALOG_DATA) public productModel: ProductModel,
+  constructor(private fb : FormBuilder, public dialogRef: MatDialogRef<ProductModelDialogComponent>, @Inject(MAT_DIALOG_DATA) public productModel: ProductModel,
               public product: ProductService) {
-    console.log(productModel);
-    if (this.productModel.id === 0) this.title = "Insertar Modelo"; else this.title = "Modificar Modelo";
+    this.form = fb.group({
+      txt_productModel: ['', Validators.required]
+    });
+
+    if (this.productModel.id === 0) this.title = "Insertar Modelo"; else {
+      this.title = "Modificar Modelo";
+      this.form.get('txt_productModel').setValue(this.productModel.productModelName);
+    }
   }
 
   onNoClick(): void {
-    this.dialogRef.close();
+    this.click = 'cancelar';
   }
 
   ngOnInit() {
@@ -31,5 +42,14 @@ export class ProductModelDialogComponent implements OnInit {
     }, (err) => {
       console.log(err);
     });
+  }
+
+  save() {
+    if (this.click === 'cancelar') {
+      this.dialogRef.close(null);
+    } else {
+      this.productModel.productModelName = this.form.get('txt_productModel').value;
+      this.dialogRef.close(this.productModel);
+    }
   }
 }

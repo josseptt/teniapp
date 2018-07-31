@@ -16,6 +16,7 @@ import { LoginComponent } from './teniapp/components/login/login.component';
 
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from './teniapp/security/token.interceptor';
+import { ProductDialogComponent } from './teniap/components/product/product-dialog/product-dialog.component';
 
 const routes: Routes = [
   { path: 'dashboard', loadChildren: './teniapp/teniapp.module#TeniappModule'},
@@ -28,7 +29,8 @@ const routes: Routes = [
     AppComponent,
     MaterialDashboardComponent,
     MessageDialogComponent,
-    LoginComponent
+    LoginComponent,
+    ProductDialogComponent
   ],
   imports: [
     BrowserModule,

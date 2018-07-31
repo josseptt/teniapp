@@ -15,6 +15,7 @@ import {FormControl} from '@angular/forms';
 import {SizeDialogComponent} from './size-dialog/size-dialog.component';
 import {ProductBrandDialogComponent} from './product-brand-dialog/product-brand-dialog.component';
 import {ProductModelDialogComponent} from './product-model-dialog/product-model-dialog.component';
+import {ProductDialogComponent} from './product-dialog/product-dialog.component';
 
 @Component({
   selector: 'app-product',
@@ -162,7 +163,7 @@ export class ProductComponent implements OnInit {
       });
 
       dialogRef.afterClosed().subscribe(result => {
-        if (result !== undefined) {
+        if (result !== null) {
           let color = {
             colorName: result
           };
@@ -190,7 +191,7 @@ export class ProductComponent implements OnInit {
       });
 
       dialogRef.afterClosed().subscribe(result => {
-        if (result !== undefined) {
+        if (result !== null) {
           let size = {
             sizeName: result
           };
@@ -218,7 +219,7 @@ export class ProductComponent implements OnInit {
       });
 
       dialogRef.afterClosed().subscribe(result => {
-        if (result !== undefined) {
+        if (result !== null) {
           let productBrand = {
             productBrandName: result
           };
@@ -258,7 +259,7 @@ export class ProductComponent implements OnInit {
             });
 
             dialogRef.afterClosed().subscribe(result => {
-              if (result !== undefined) {
+              if (result !== null) {
                 let productBrand = {
                   id: result.productBrandId
                 };
@@ -278,6 +279,92 @@ export class ProductComponent implements OnInit {
               }
               this.selectProductModel.clear();
               this.idSelected = 0;
+            });
+            return;
+          }
+        });
+      });
+    }, (err) => {
+      console.log(err);
+    });
+  }
+
+  updateProduct(): void {
+    this.productService.getProduct(this.idSelected).then((data: any) => {
+      let product = data;
+
+      this.productService.productModelList().then((data: any[]) => {
+        //SEARCH MODEL
+        data.forEach((model) => {
+          if (model.productModelName === product.productModelName) {
+
+            //SEARCH COLOR
+            this.productService.colorList().then((data: any[]) => {
+              data.forEach((color) => {
+                if (color.colorName === product.colorName) {
+
+                  //SEARCH SIZE
+                  this.productService.sizeList().then((data: any[]) => {
+                    data.forEach((size) => {
+                      if (size.sizeName === product.sizeName) {
+
+                        /*SHOW DIALOG*/
+                        const dialogRef = this.dialog.open(ProductModelDialogComponent, {
+                          width: '450px', data: {
+                            id: product.id,
+                            productName: product.productName,
+                            barCode: product.barCode,
+                            description: product.description,
+                            urlImage: product.urlImage,
+                            productModelId: model.id,
+                            colorId: color.id,
+                            sizeId: size.id,
+                            active: product.active
+                          }
+                        });
+
+                        dialogRef.afterClosed().subscribe(result => {
+                          if (result !== null) {
+                            let productModel = {
+                              id: result.productModelId
+                            };
+
+                            let color = {
+                              id: result.productColorId
+                            };
+
+                            let size = {
+                              id: result.productSizeId
+                            };
+
+                            let product = {
+                              barCode: result.barCode,
+                              productName: result.productModelName,
+                              description: result.description,
+                              urlImage: result.urlImage,
+                              productModel: productModel,
+                              color: color,
+                              size: size
+                            };
+
+                            this.productService.updateProduct(product, this.idSelected).then((data: any) => {
+                              this.getProducts();
+                            }, (err) => {
+                              this.dialog.open(InfoDialogComponent, {
+                                width: '450px', data: 'El producto: ' + product.productName + ' ya existe.'
+                              });
+                            });
+                          }
+                          this.selectProduct.clear();
+                          this.idSelected = 0;
+                        });
+                        return;
+                      }
+                    });
+                  });
+                  return;
+                }
+              });
             });
             return;
           }
@@ -425,6 +512,36 @@ export class ProductComponent implements OnInit {
     });
   }
 
+  deleteProduct(): void {
+    this.productService.getProduct(this.idSelected).then((data: any) => {
+      let product = data;
+
+      if (product.active) {
+        const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+          width: '450px', data: "Esta seguro que desea eliminar este producto: " + product.productName +"?"
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+          console.log(result);
+          if (result) {
+            this.productService.deleteProduct(this.idSelected).then((data: any) => {
+              this.dialog.open(InfoDialogComponent, {
+                width: '450px', data: "producto Eliminado con Exito!"
+              });
+              this.getProducts();
+            }, (err) => {
+              console.log(err);
+            });
+          }
+          this.selectProduct.clear();
+          this.idSelected = 0;
+        });
+      }
+    }, (err) => {
+      console.log(err);
+    });
+  }
+
   insert() {
     switch (this.selected.value) {
       case 0:
@@ -452,7 +569,7 @@ export class ProductComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if (result !== undefined) {
+      if (result !== null) {
         let color = {
           colorName: result
         };
@@ -478,7 +595,7 @@ export class ProductComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if (result !== undefined) {
+      if (result !== null) {
         let size = {
           sizeName: result
         };
@@ -504,7 +621,7 @@ export class ProductComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if (result !== undefined) {
+      if (result !== null) {
         let productBrand = {
           productBrandName: result
         };
@@ -531,7 +648,7 @@ export class ProductComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if (result !== undefined) {
+      if (result !== null) {
         let productBrand = {
           id: result.productBrandId
         };
@@ -546,6 +663,56 @@ export class ProductComponent implements OnInit {
         }, (err) => {
           this.dialog.open(InfoDialogComponent, {
             width: '450px', data: 'El modelo: ' + productModel.productModelName + ' ya existe.'
+          });
+        });
+      }
+    });
+  }
+
+  insertProduct(): void {
+    const dialogRef = this.dialog.open(ProductDialogComponent, {
+      width: '450px', data: {
+        id: '',
+        barCode: '',
+        productName: '',
+        description: '',
+        urlImage: '',
+        colorId: 0,
+        sizeId: 0,
+        productModelId: 0,
+        active: false
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result !== null) {
+        let productModel = {
+          id: result.productModelId
+        };
+
+        let color = {
+          id: result.productColorId
+        };
+
+        let size = {
+          id: result.productSizeId
+        };
+
+        let product = {
+          barCode: result.barCode,
+          productName: result.productModelName,
+          description: result.description,
+          urlImage: result.urlImage,
+          productModel: productModel,
+          color: color,
+          size: size
+        };
+
+        this.productService.addProduct(product).then((data: any) => {
+          this.getProducts();
+        }, (err) => {
+          this.dialog.open(InfoDialogComponent, {
+            width: '450px', data: 'El producto: ' + product.productName + ' ya existe.'
           });
         });
       }

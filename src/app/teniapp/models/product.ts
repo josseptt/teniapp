@@ -1,9 +1,11 @@
 export interface Product {
   id: number;
-  productName: string;
-  colorName: string;
-  sizeName: string;
-  productBrandName: string;
-  productModelName: string;
+  barCode: string;
+  productName: number;
+  description: string;
+  urlImage: string;
+  colorId: number;
+  sizeId: number;
+  productModelId: number;
   active: boolean;
 }

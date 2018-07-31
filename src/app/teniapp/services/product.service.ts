@@ -322,4 +322,60 @@ export class ProductService {
       });
     });
   }
+
+  getProduct(id: number) {
+    return new Promise((resolve, reject) => {
+      this.http.get('http://' + constants.URL + ':8100/api/v1/product/get/' + id).subscribe((res: any) => {
+        console.log('from server success');
+        console.log(res);
+        resolve(res);
+      }, (err) => {
+        console.log('from server error');
+        console.log(err);
+        reject(err);
+      });
+    });
+  }
+
+  addProduct(product: any) {
+    return new Promise((resolve, reject) => {
+      this.http.post('http://' + constants.URL + ':8100/api/v1/product/insert', product).subscribe((res: any) => {
+        console.log('from server success');
+        console.log(res);
+        resolve(res);
+      }, (err) => {
+        console.log('from server error');
+        console.log(err);
+        reject(err);
+      });
+    });
+  }
+
+  updateProduct(product: any, id: number) {
+    return new Promise((resolve, reject) => {
+      this.http.post('http://' + constants.URL + ':8100/api/v1/product/update/' + id, product).subscribe((res: any) => {
+        console.log('from server success');
+        console.log(res);
+        resolve(res);
+      }, (err) => {
+        console.log('from server error');
+        console.log(err);
+        reject(err);
+      });
+    });
+  }
+
+  deleteProduct(id: number) {
+    return new Promise((resolve, reject) => {
+      this.http.get('http://' + constants.URL + ':8100/api/v1/product/delete/' + id).subscribe((res: any) => {
+        console.log('from server success');
+        console.log(res);
+        resolve(res);
+      }, (err) => {
+        console.log('from server error');
+        console.log(err);
+        reject(err);
+      });
+    });
+  }
 }
