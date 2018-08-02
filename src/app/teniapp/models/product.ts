@@ -7,5 +7,7 @@ export interface Product {
   colorId: number;
   sizeId: number;
   productModelId: number;
+  purchasePrice: number;
+  salePrice: number;
   active: boolean;
 }

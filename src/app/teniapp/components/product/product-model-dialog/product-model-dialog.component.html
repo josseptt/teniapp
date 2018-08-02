@@ -5,7 +5,7 @@
 
   <form [formGroup]="form" (ngSubmit)="save()">
     <div mat-dialog-content>
-      <mat-select [(value)]="productModel.productBrandId" placeholder="Seleccione Marca">
+      <mat-select [(value)]="productModel.productBrandId" placeholder="Seleccione Marca" (selectionChange)="errorBrand=false">
         <mat-option *ngFor="let brand of productBrandList" [value]="brand.id">
           {{brand.productBrandName}}
         </mat-option>
@@ -16,6 +16,7 @@
     </div>
 
     <div mat-dialog-actions>
+      <div [hidden]="!errorBrand" class="msg-error"><p>Seleccione una Marca !</p></div>
       <button mat-raised-button color="warn" (click)="onNoClick()">Cancelar</button>
       <button [disabled]="!form.valid" mat-raised-button color="primary" cdkFocusInitial>Guardar</button>
     </div>

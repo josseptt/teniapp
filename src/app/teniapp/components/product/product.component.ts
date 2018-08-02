@@ -34,7 +34,7 @@ export class ProductComponent implements OnInit {
     ['select', 'id', 'sizeName'],
     ['select', 'id', 'productModelName', 'productBrandName'],
     ['select', 'id', 'productBrandName'],
-    ['select', 'id', 'productName', 'productBrandName', 'productModelName', 'colorName', 'sizeName']
+    ['select', 'id', 'productName', 'description', 'productBrand', 'productModel', 'color', 'size', 'purchasePrice', 'salePrice']
   ];
 
   elementColor: Color[];
@@ -320,36 +320,44 @@ export class ProductComponent implements OnInit {
                             productModelId: model.id,
                             colorId: color.id,
                             sizeId: size.id,
+                            purchasePrice: product.purchasePrice,
+                            salePrice: product.salePrice,
                             active: product.active
                           }
                         });
 
                         dialogRef.afterClosed().subscribe(result => {
                           if (result !== null) {
-                            let productModel = {
-                              id: result.productModelId
-                            };
-
-                            let color = {
-                              id: result.productColorId
-                            };
-
-                            let size = {
-                              id: result.productSizeId
-                            };
-
                             let product = {
                               barCode: result.barCode,
-                              productName: result.productModelName,
+                              productName: result.productName,
                               description: result.description,
                               urlImage: result.urlImage,
-                              productModel: productModel,
-                              color: color,
-                              size: size
+                              productModel: {
+                                id: result.productModelId
+                              },
+                              color: {
+                                id: result.colorId
+                              },
+                              size: {
+                                id: result.sizeId
+                              }
                             };
 
                             this.productService.updateProduct(product, this.idProductSelected).then((data: any) => {
-                              this.getProducts();
+                              let productPrice = {
+                                product: {
+                                  id: data.id
+                                },
+                                purchasePrice: result.purchasePrice,
+                                salePrice: result.salePrice
+                              };
+
+                              this.productService.addProductPrice(productPrice).then((data: any) => {
+                                this.getProducts();
+                              }, (err) => {
+                                console.log(err);
+                              });
                             }, (err) => {
                               this.dialog.open(InfoDialogComponent, {
                                 width: '450px', data: 'El producto: ' + product.productName + ' ya existe.'
@@ -650,13 +658,11 @@ export class ProductComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result !== null) {
-        let productBrand = {
-          id: result.productBrandId
-        };
-
         let productModel = {
           productModelName: result.productModelName,
-          productBrand: productBrand
+          productBrand: {
+            id: result.productBrandId
+          }
         };
 
         this.productService.addProductModel(productModel).then((data: any) => {
@@ -681,24 +687,15 @@ export class ProductComponent implements OnInit {
         colorId: 0,
         sizeId: 0,
         productModelId: 0,
+        purchasePrice: 0,
+        salePrice: 0,
         active: false
       }
     });
 
     dialogRef.afterClosed().subscribe(result => {
+      console.log(result);
       if (result !== null) {
-        let productModel = {
-          id: result.productModelId
-        };
-
-        let color = {
-          id: result.colorId
-        };
-
-        let size = {
-          id: result.sizeId
-        };
-
         let product = {
           barCode: result.barCode,
           productName: result.productName,
@@ -716,7 +713,19 @@ export class ProductComponent implements OnInit {
         };
 
         this.productService.addProduct(product).then((data: any) => {
-          this.getProducts();
+          let productPrice = {
+            product: {
+              id: data.id
+            },
+            purchasePrice: result.purchasePrice,
+            salePrice: result.salePrice
+          };
+
+          this.productService.addProductPrice(productPrice).then((data: any) => {
+            this.getProducts();
+          }, (err) => {
+            console.log(err);
+          });
         }, (err) => {
           this.dialog.open(InfoDialogComponent, {
             width: '450px', data: 'El producto: ' + product.productName + ' ya existe.'

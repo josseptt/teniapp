@@ -378,4 +378,36 @@ export class ProductService {
       });
     });
   }
+
+  /*******************************************************************
+   * PRODUCT PRICE
+   */
+
+  getProductPrice(product_id: number) {
+    return new Promise((resolve, reject) => {
+      this.http.get('http://' + constants.URL + ':8100/api/v1/productprice/get/' + product_id).subscribe((res: any) => {
+        console.log('from server success');
+        console.log(res);
+        resolve(res);
+      }, (err) => {
+        console.log('from server error');
+        console.log(err);
+        reject(err);
+      });
+    });
+  }
+
+  addProductPrice(productPrice: any) {
+    return new Promise((resolve, reject) => {
+      this.http.post('http://' + constants.URL + ':8100/api/v1/productprice/insert', productPrice).subscribe((res: any) => {
+        console.log('from server success');
+        console.log(res);
+        resolve(res);
+      }, (err) => {
+        console.log('from server error');
+        console.log(err);
+        reject(err);
+      });
+    });
+  }
 }

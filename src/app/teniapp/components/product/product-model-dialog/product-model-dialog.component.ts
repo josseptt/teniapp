@@ -20,6 +20,8 @@ export class ProductModelDialogComponent implements OnInit {
 
   productBrandList: ProductBrand[];
 
+  errorBrand: boolean = false;
+
   constructor(private fb : FormBuilder, public dialogRef: MatDialogRef<ProductModelDialogComponent>, @Inject(MAT_DIALOG_DATA) public productModel: ProductModel,
               public productService: ProductService) {
     this.form = fb.group({
@@ -48,8 +50,12 @@ export class ProductModelDialogComponent implements OnInit {
     if (this.click === 'cancelar') {
       this.dialogRef.close(null);
     } else {
-      this.productModel.productModelName = this.form.get('txt_productModel').value;
-      this.dialogRef.close(this.productModel);
+      if (this.productModel.productBrandId === 0) {
+        this.errorBrand = true;
+      } else {
+        this.productModel.productModelName = this.form.get('txt_productModel').value;
+        this.dialogRef.close(this.productModel);
+      }
     }
   }
 }

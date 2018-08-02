@@ -6,37 +6,37 @@
   <form [formGroup]="form" (ngSubmit)="save()">
     <div mat-dialog-content>
 
-      <!-- COLUMN MODEL-->
-      <mat-select [(value)]="product.productModelId" placeholder="Seleccione el Modelo">
-        <mat-option *ngFor="let model of productModelList" [value]="model.id">
-          {{model.productModelName}}
-        </mat-option>
-      </mat-select>
-
       <!-- COLUMN BAR CODE-->
       <mat-form-field>
         <input matInput placeholder="Codigo de Barra" formControlName="txt_barCode">
       </mat-form-field>
+
+      <!-- COLUMN MODEL-->
+      <mat-select [(value)]="product.productModelId" placeholder="Seleccione el Modelo" (selectionChange)="errorModel=false">
+        <mat-option *ngFor="let model of productModelList" [value]="model.id">
+          {{model.productModelName}}
+        </mat-option>
+      </mat-select>
 
       <!-- COLUMN NAME-->
       <mat-form-field>
         <input matInput placeholder="Nombre del Producto" formControlName="txt_productName">
       </mat-form-field>
 
-      <!-- COLUMN DESCRIPTION-->
-      <mat-form-field>
-        <input matInput placeholder="Descripcion" formControlName="txt_description">
-      </mat-form-field>
-
       <!-- COLUMN COLOR-->
-      <mat-select [(value)]="product.colorId" placeholder="Seleccione el Color">
+      <mat-select [(value)]="product.colorId" placeholder="Seleccione el Color" (selectionChange)="errorColor=false">
         <mat-option *ngFor="let color of colorList" [value]="color.id">
           {{color.colorName}}
         </mat-option>
       </mat-select>
 
+      <!-- COLUMN DESCRIPTION-->
+      <mat-form-field>
+        <input matInput placeholder="Descripcion" formControlName="txt_description">
+      </mat-form-field>
+
       <!-- COLUMN SIZE-->
-      <mat-select [(value)]="product.sizeId" placeholder="Seleccione el Tamaño">
+      <mat-select [(value)]="product.sizeId" placeholder="Seleccione el Tamaño" (selectionChange)="errorSize=false">
         <mat-option *ngFor="let size of sizeList" [value]="size.id">
           {{size.sizeName}}
         </mat-option>
@@ -46,9 +46,22 @@
       <mat-form-field>
         <input matInput placeholder="Imagen/Foto" formControlName="txt_urlImage">
       </mat-form-field>
+
+      <mat-form-field>
+        <input matInput placeholder="Precio de Compra" type="number" class="right-align" formControlName="txt_purchasePrice">
+        <span matPrefix>$&nbsp;</span>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput placeholder="Precio de Venta" type="number" class="right-align" formControlName="txt_salePrice">
+        <span matPrefix>$&nbsp;</span>
+      </mat-form-field>
     </div>
 
     <div mat-dialog-actions>
+      <div [hidden]="!errorModel" class="msg-error"><p>Seleccione un Modelo !</p></div>
+      <div [hidden]="!errorColor" class="msg-error"><p>Seleccione un Color !</p></div>
+      <div [hidden]="!errorSize" class="msg-error"><p>Selecione un Tamaño !</p></div>
       <button mat-raised-button color="warn" (click)="onNoClick()">Cancelar</button>
       <button [disabled]="!form.valid" mat-raised-button color="primary" cdkFocusInitial>Guardar</button>
     </div>
