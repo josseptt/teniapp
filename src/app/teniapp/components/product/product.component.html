@@ -192,7 +192,7 @@
             <td mat-cell *matCellDef="let row">
               <mat-checkbox (click)="$event.stopPropagation()"
                             (change)="$event ? selectedProduct(row) : null"
-                            [checked]="selectColor.isSelected(row)">
+                            [checked]="selectProduct.isSelected(row)">
               </mat-checkbox>
             </td>
           </ng-container>
@@ -218,25 +218,25 @@
           <!-- Column -->
           <ng-container matColumnDef="productBrandName">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Marca</th>
-            <td mat-cell *matCellDef="let element"> {{element.productBrandName}}</td>
+            <td mat-cell *matCellDef="let element"> {{element.productBrand}}</td>
           </ng-container>
 
           <!-- Column -->
           <ng-container matColumnDef="productModelName">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Modelo</th>
-            <td mat-cell *matCellDef="let element"> {{element.productModelName}}</td>
+            <td mat-cell *matCellDef="let element"> {{element.productModel}}</td>
           </ng-container>
 
           <!-- Column -->
           <ng-container matColumnDef="colorName">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Color</th>
-            <td mat-cell *matCellDef="let element"> {{element.colorName}}</td>
+            <td mat-cell *matCellDef="let element"> {{element.color}}</td>
           </ng-container>
 
           <!-- Column -->
           <ng-container matColumnDef="sizeName">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Tamaño</th>
-            <td mat-cell *matCellDef="let element"> {{element.sizeName}}</td>
+            <td mat-cell *matCellDef="let element"> {{element.size}}</td>
           </ng-container>
 
           <tr mat-header-row *matHeaderRowDef="column[4]"></tr>

@@ -70,7 +70,7 @@ const routes: Routes = [
     SizeDialogComponent,
     ProductBrandDialogComponent,
     ProductModelDialogComponent,
-    ProductComponent,
+    ProductDialogComponent,
     ConfirmDialogComponent,
     InfoDialogComponent
   ]

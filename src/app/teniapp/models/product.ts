@@ -1,7 +1,7 @@
 export interface Product {
   id: number;
   barCode: string;
-  productName: number;
+  productName: string;
   description: string;
   urlImage: string;
   colorId: number;

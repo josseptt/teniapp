@@ -1,3 +1,56 @@
-<p>
-  product-dialog works!
-</p>
+<div class="wrap-dialog">
+  <h1 mat-dialog-title>{{title}}</h1>
+
+  <mat-divider></mat-divider>
+
+  <form [formGroup]="form" (ngSubmit)="save()">
+    <div mat-dialog-content>
+
+      <!-- COLUMN MODEL-->
+      <mat-select [(value)]="product.productModelId" placeholder="Seleccione el Modelo">
+        <mat-option *ngFor="let model of productModelList" [value]="model.id">
+          {{model.productModelName}}
+        </mat-option>
+      </mat-select>
+
+      <!-- COLUMN BAR CODE-->
+      <mat-form-field>
+        <input matInput placeholder="Codigo de Barra" formControlName="txt_barCode">
+      </mat-form-field>
+
+      <!-- COLUMN NAME-->
+      <mat-form-field>
+        <input matInput placeholder="Nombre del Producto" formControlName="txt_productName">
+      </mat-form-field>
+
+      <!-- COLUMN DESCRIPTION-->
+      <mat-form-field>
+        <input matInput placeholder="Descripcion" formControlName="txt_description">
+      </mat-form-field>
+
+      <!-- COLUMN COLOR-->
+      <mat-select [(value)]="product.colorId" placeholder="Seleccione el Color">
+        <mat-option *ngFor="let color of colorList" [value]="color.id">
+          {{color.colorName}}
+        </mat-option>
+      </mat-select>
+
+      <!-- COLUMN SIZE-->
+      <mat-select [(value)]="product.sizeId" placeholder="Seleccione el Tamaño">
+        <mat-option *ngFor="let size of sizeList" [value]="size.id">
+          {{size.sizeName}}
+        </mat-option>
+      </mat-select>
+
+      <!-- COLUMN IMAGE-->
+      <mat-form-field>
+        <input matInput placeholder="Imagen/Foto" formControlName="txt_urlImage">
+      </mat-form-field>
+    </div>
+
+    <div mat-dialog-actions>
+      <button mat-raised-button color="warn" (click)="onNoClick()">Cancelar</button>
+      <button [disabled]="!form.valid" mat-raised-button color="primary" cdkFocusInitial>Guardar</button>
+    </div>
+  </form>
+</div>

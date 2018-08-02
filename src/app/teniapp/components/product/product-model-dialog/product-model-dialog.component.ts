@@ -21,7 +21,7 @@ export class ProductModelDialogComponent implements OnInit {
   productBrandList: ProductBrand[];
 
   constructor(private fb : FormBuilder, public dialogRef: MatDialogRef<ProductModelDialogComponent>, @Inject(MAT_DIALOG_DATA) public productModel: ProductModel,
-              public product: ProductService) {
+              public productService: ProductService) {
     this.form = fb.group({
       txt_productModel: ['', Validators.required]
     });
@@ -37,7 +37,7 @@ export class ProductModelDialogComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.product.productBrandList().then((data: any[]) => {
+    this.productService.productBrandList().then((data: any[]) => {
       this.productBrandList = data;
     }, (err) => {
       console.log(err);

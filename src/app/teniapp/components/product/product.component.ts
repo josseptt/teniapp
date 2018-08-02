@@ -126,6 +126,7 @@ export class ProductComponent implements OnInit {
 
   getProducts() {
     this.productService.productList().then((data: any[]) => {
+      console.log(data);
       this.elementProduct = data;
       this.dataSourceProduct = new MatTableDataSource<Product>(this.elementProduct);
       this.dataSourceProduct.paginator = this.productPaginator;
@@ -290,26 +291,26 @@ export class ProductComponent implements OnInit {
   }
 
   updateProduct(): void {
-    this.productService.getProduct(this.idSelected).then((data: any) => {
+    this.productService.getProduct(this.idProductSelected).then((data: any) => {
       let product = data;
 
       this.productService.productModelList().then((data: any[]) => {
         //SEARCH MODEL
         data.forEach((model) => {
-          if (model.productModelName === product.productModelName) {
+          if (model.productModelName === product.productModel) {
 
             //SEARCH COLOR
             this.productService.colorList().then((data: any[]) => {
               data.forEach((color) => {
-                if (color.colorName === product.colorName) {
+                if (color.colorName === product.color) {
 
                   //SEARCH SIZE
                   this.productService.sizeList().then((data: any[]) => {
                     data.forEach((size) => {
-                      if (size.sizeName === product.sizeName) {
+                      if (size.sizeName === product.size) {
 
                         /*SHOW DIALOG*/
-                        const dialogRef = this.dialog.open(ProductModelDialogComponent, {
+                        const dialogRef = this.dialog.open(ProductDialogComponent, {
                           width: '450px', data: {
                             id: product.id,
                             productName: product.productName,
@@ -347,7 +348,7 @@ export class ProductComponent implements OnInit {
                               size: size
                             };
 
-                            this.productService.updateProduct(product, this.idSelected).then((data: any) => {
+                            this.productService.updateProduct(product, this.idProductSelected).then((data: any) => {
                               this.getProducts();
                             }, (err) => {
                               this.dialog.open(InfoDialogComponent, {
@@ -356,7 +357,7 @@ export class ProductComponent implements OnInit {
                             });
                           }
                           this.selectProduct.clear();
-                          this.idSelected = 0;
+                          this.idProductSelected = 0;
                         });
                         return;
                       }
@@ -513,7 +514,7 @@ export class ProductComponent implements OnInit {
   }
 
   deleteProduct(): void {
-    this.productService.getProduct(this.idSelected).then((data: any) => {
+    this.productService.getProduct(this.idProductSelected).then((data: any) => {
       let product = data;
 
       if (product.active) {
@@ -524,7 +525,7 @@ export class ProductComponent implements OnInit {
         dialogRef.afterClosed().subscribe(result => {
           console.log(result);
           if (result) {
-            this.productService.deleteProduct(this.idSelected).then((data: any) => {
+            this.productService.deleteProduct(this.idProductSelected).then((data: any) => {
               this.dialog.open(InfoDialogComponent, {
                 width: '450px', data: "producto Eliminado con Exito!"
               });
@@ -534,7 +535,7 @@ export class ProductComponent implements OnInit {
             });
           }
           this.selectProduct.clear();
-          this.idSelected = 0;
+          this.idProductSelected = 0;
         });
       }
     }, (err) => {
@@ -691,21 +692,27 @@ export class ProductComponent implements OnInit {
         };
 
         let color = {
-          id: result.productColorId
+          id: result.colorId
         };
 
         let size = {
-          id: result.productSizeId
+          id: result.sizeId
         };
 
         let product = {
           barCode: result.barCode,
-          productName: result.productModelName,
+          productName: result.productName,
           description: result.description,
           urlImage: result.urlImage,
-          productModel: productModel,
-          color: color,
-          size: size
+          productModel: {
+            id: result.productModelId
+          },
+          color: {
+            id: result.colorId
+          },
+          size: {
+            id: result.sizeId
+          }
         };
 
         this.productService.addProduct(product).then((data: any) => {
