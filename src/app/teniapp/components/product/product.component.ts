@@ -126,7 +126,6 @@ export class ProductComponent implements OnInit {
 
   getProducts() {
     this.productService.productList().then((data: any[]) => {
-      console.log(data);
       this.elementProduct = data;
       this.dataSourceProduct = new MatTableDataSource<Product>(this.elementProduct);
       this.dataSourceProduct.paginator = this.productPaginator;

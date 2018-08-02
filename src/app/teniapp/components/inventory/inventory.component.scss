@@ -1,3 +1,38 @@
+@import "../../utils/colors";
+
 .wrapper {
   padding: 10px;
+}
+
+table {
+  width: 100%;
+}
+
+mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+button {
+  margin-top: 15px;
+  margin-right: 10px;
+}
+
+.mat-header-cell {
+  background-color: mat-color($primary);
+  color: #fff;
+}
+
+tr:nth-child(even){
+  transition: all 0.7s ease;
+  background-color: #f5f5f5;
+}
+
+tr:nth-child(odd){
+  transition: all 0.7s ease;
+  background-color: #ffffff;
+}
+
+tr:hover {
+  background-color: #ebebeb;
 }

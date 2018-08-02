@@ -410,4 +410,21 @@ export class ProductService {
       });
     });
   }
+
+  /*******************************************************************
+   * INVENTORY
+   */
+  inventoryList() {
+    return new Promise((resolve, reject) => {
+      this.http.get('http://' + constants.URL + ':8100/api/v1/inventory/all').subscribe((res: any) => {
+        console.log('from server success');
+        console.log(res);
+        resolve(res);
+      }, (err) => {
+        console.log('from server error');
+        console.log(err);
+        reject(err);
+      });
+    });
+  }
 }
