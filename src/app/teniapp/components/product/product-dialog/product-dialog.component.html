@@ -47,15 +47,21 @@
         <input matInput placeholder="Imagen/Foto" formControlName="txt_urlImage">
       </mat-form-field>
 
-      <mat-form-field>
-        <input matInput placeholder="Precio de Compra" type="number" class="right-align" formControlName="txt_purchasePrice">
-        <span matPrefix>$&nbsp;</span>
-      </mat-form-field>
+      <mat-grid-list cols="2" rowHeight="80px">
+        <mat-grid-tile>
+          <mat-form-field>
+            <input matInput placeholder="Precio de Compra" type="number" class="right-align" formControlName="txt_purchasePrice">
+            <span matPrefix>$&nbsp;</span>
+          </mat-form-field>
+        </mat-grid-tile>
 
-      <mat-form-field>
-        <input matInput placeholder="Precio de Venta" type="number" class="right-align" formControlName="txt_salePrice">
-        <span matPrefix>$&nbsp;</span>
-      </mat-form-field>
+        <mat-grid-tile>
+          <mat-form-field>
+            <input matInput placeholder="Precio de Venta" type="number" class="right-align" formControlName="txt_salePrice">
+            <span matPrefix>$&nbsp;</span>
+          </mat-form-field>
+        </mat-grid-tile>
+      </mat-grid-list>
     </div>
 
     <div mat-dialog-actions>

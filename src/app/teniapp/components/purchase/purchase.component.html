@@ -1,0 +1,150 @@
+<div class="wrapper">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>
+        Compra de Articulos
+      </mat-card-title>
+    </mat-card-header>
+
+    <mat-divider></mat-divider>
+
+    <mat-card-content>
+      <form>
+        <mat-grid-list cols="2" rowHeight="80px">
+
+          <!--INPUT TEXT-->
+          <mat-grid-tile>
+            <div class="txt-input">
+              <mat-form-field>
+                <input type="text" matInput placeholder="Seleccione un Proveedor" [formControl]="txtSupplier" [matAutocomplete]="autoSupplier">
+                <mat-autocomplete #autoSupplier="matAutocomplete">
+                  <mat-option *ngFor="let supplier of supplierList" [value]="supplier.firstname + ' ' + supplier.lastname">
+                    {{ supplier.firstname + ' ' + supplier.lastname }}
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+            </div>
+          </mat-grid-tile>
+
+          <!--INPUT TEXT-->
+          <mat-grid-tile>
+            <div class="txt-input">
+              <mat-form-field>
+                <input type="text" matInput placeholder="Seleccione un Producto" [formControl]="txtProduct" [matAutocomplete]="autoProduct">
+                <mat-autocomplete #autoProduct="matAutocomplete">
+                  <mat-option *ngFor="let product of productList" [value]="product.productName">
+                    {{ product.productName }}
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+            </div>
+          </mat-grid-tile>
+
+          <!--INPUT TEXT-->
+          <mat-grid-tile>
+            <div class="txt-input">
+              <mat-form-field class="txt-input">
+                <input type="number" matInput placeholder="Cantidad" [formControl]="txtQuantity">
+              </mat-form-field>
+            </div>
+          </mat-grid-tile>
+
+          <!--INPUT TEXT-->
+          <mat-grid-tile>
+            <div class="txt-input">
+              <mat-form-field class="txt-input">
+                <input type="number" matInput placeholder="Precio" [formControl]="txtPrice">
+                <span matPrefix>$&nbsp;</span>
+              </mat-form-field>
+            </div>
+          </mat-grid-tile>
+        </mat-grid-list>
+
+        <div class="mat-elevation-z1">
+          <table mat-table [dataSource]="dataSource" matSort #sort="matSort">
+
+            <!-- Checkbox Column -->
+            <ng-container matColumnDef="select">
+              <th mat-header-cell *matHeaderCellDef>Select</th>
+              <td mat-cell *matCellDef="let row">
+                <mat-checkbox (click)="$event.stopPropagation()"
+                              (change)="$event ? selected(row) : null"
+                              [checked]="selectRow.isSelected(row)">
+                </mat-checkbox>
+              </td>
+            </ng-container>
+
+            <!-- Column -->
+            <ng-container matColumnDef="id">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+              <td mat-cell *matCellDef="let element">{{element.id}}</td>
+            </ng-container>
+
+            <!-- Column -->
+            <ng-container matColumnDef="productName">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</th>
+              <td mat-cell *matCellDef="let element"> {{element.productName}}</td>
+            </ng-container>
+
+            <!-- Column -->
+            <ng-container matColumnDef="productBrand">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Marca</th>
+              <td mat-cell *matCellDef="let element"> {{element.productBrand}}</td>
+            </ng-container>
+
+            <!-- Column -->
+            <ng-container matColumnDef="productModel">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Modelo</th>
+              <td mat-cell *matCellDef="let element"> {{element.productModel}}</td>
+            </ng-container>
+
+            <!-- Column -->
+            <ng-container matColumnDef="color">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Color</th>
+              <td mat-cell *matCellDef="let element"> {{element.color}}</td>
+            </ng-container>
+
+            <!-- Column -->
+            <ng-container matColumnDef="size">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Tamaño</th>
+              <td mat-cell *matCellDef="let element"> {{element.size}}</td>
+            </ng-container>
+
+            <!-- Column -->
+            <ng-container matColumnDef="purchasePrice">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Precio de Compra</th>
+              <td mat-cell *matCellDef="let element"> {{element.purchasePrice}}</td>
+            </ng-container>
+
+            <!-- Column -->
+            <ng-container matColumnDef="requestedQuantity">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Cantidad Pedida</th>
+              <td mat-cell *matCellDef="let element"> {{element.purchasePrice}}</td>
+            </ng-container>
+
+            <!-- Column -->
+            <ng-container matColumnDef="receivedQuantity">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Cantidad Recibida</th>
+              <td mat-cell *matCellDef="let element"> {{element.purchasePrice}}</td>
+            </ng-container>
+
+            <!-- Column -->
+            <ng-container matColumnDef="subtotal">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Subtotal</th>
+              <td mat-cell *matCellDef="let element"> {{element.purchasePrice}}</td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="column"></tr>
+            <tr mat-row *matRowDef="let row; columns: column;" (click)="selected(row)"></tr>
+          </table>
+
+          <mat-paginator #paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+        </div>
+      </form>
+    </mat-card-content>
+
+    <mat-card-actions>
+
+    </mat-card-actions>
+  </mat-card>
+</div>

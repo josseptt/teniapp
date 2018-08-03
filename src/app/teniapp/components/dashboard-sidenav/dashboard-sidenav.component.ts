@@ -31,7 +31,7 @@ export class DashboardSidenavComponent implements OnDestroy {
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
 
-    this.container = 1;
+    this.container = 5;
     this.getrole();
   }
 
@@ -77,11 +77,17 @@ export class DashboardSidenavComponent implements OnDestroy {
     if (value === 'product') this.container = 1;
     if (value === 'inventory') this.container = 2;
     if (value === 'admin') this.container = 3;
+    if (value === 'sales') this.container = 4;
+    if (value === 'purchase') this.container = 5;
   }
 
   logout() {
     this.router.navigate(['']);
     this.authService.logout();
+  }
+
+  editProfile() {
+    this.container = 6;
   }
 
   getDecodedAccessToken(token: string): any {

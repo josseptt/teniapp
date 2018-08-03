@@ -10,7 +10,7 @@
       <div class="profile-name">
         <button mat-button [matMenuTriggerFor]="menu_option"><p>{{this.employees_name}}</p></button>
         <mat-menu #menu_option="matMenu" yPosition="above">
-          <button mat-menu-item>Editar Perfil</button>
+          <button mat-menu-item (click)="editProfile()">Editar Perfil</button>
           <button mat-menu-item (click)="logout()">Log Out (Desconectarse)</button>
         </mat-menu>
       </div>
@@ -30,6 +30,9 @@
       <div *ngSwitchCase="1"><app-product></app-product></div>
       <div *ngSwitchCase="2"><app-inventory></app-inventory></div>
       <div *ngSwitchCase="3"><app-administration></app-administration></div>
+      <div *ngSwitchCase="4"><app-sales></app-sales></div>
+      <div *ngSwitchCase="5"><app-purchase></app-purchase></div>
+      <div *ngSwitchCase="6"><app-edit-profile></app-edit-profile></div>
     </mat-sidenav-content>
   </mat-sidenav-container>
 

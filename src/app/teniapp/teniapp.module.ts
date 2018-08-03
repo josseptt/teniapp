@@ -23,12 +23,18 @@ import { SizeDialogComponent } from './components/product/size-dialog/size-dialo
 import { ProductBrandDialogComponent } from './components/product/product-brand-dialog/product-brand-dialog.component';
 import { ProductModelDialogComponent } from './components/product/product-model-dialog/product-model-dialog.component';
 import { ProductDialogComponent } from './components/product/product-dialog/product-dialog.component';
+import { PurchaseComponent } from './components/purchase/purchase.component';
+import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
+import { SalesComponent } from './components/sales/sales.component';
 
 const routes: Routes = [
   { path: '', component: DashboardSidenavComponent},
   { path: 'product', component: ProductComponent},
   { path: 'inventory', component: InventoryComponent},
   { path: 'admin', component: AdministrationComponent},
+  { path: 'edit', component: EditProfileComponent},
+  { path: 'purchase', component: PurchaseComponent},
+  { path: 'sales', component: SalesComponent},
   { path: '**', redirectTo: ''}
 ];
 
@@ -54,7 +60,10 @@ const routes: Routes = [
     SizeDialogComponent,
     ProductBrandDialogComponent,
     ProductModelDialogComponent,
-    ProductDialogComponent
+    ProductDialogComponent,
+    PurchaseComponent,
+    EditProfileComponent,
+    SalesComponent
   ],
   providers: [
     {
