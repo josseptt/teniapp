@@ -26,6 +26,7 @@ import { ProductDialogComponent } from './components/product/product-dialog/prod
 import { PurchaseComponent } from './components/purchase/purchase.component';
 import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
 import { SalesComponent } from './components/sales/sales.component';
+import { RoleDialogComponent } from './components/administration/role-dialog/role-dialog.component';
 
 const routes: Routes = [
   { path: '', component: DashboardSidenavComponent},
@@ -63,7 +64,8 @@ const routes: Routes = [
     ProductDialogComponent,
     PurchaseComponent,
     EditProfileComponent,
-    SalesComponent
+    SalesComponent,
+    RoleDialogComponent
   ],
   providers: [
     {
@@ -80,6 +82,7 @@ const routes: Routes = [
     ProductBrandDialogComponent,
     ProductModelDialogComponent,
     ProductDialogComponent,
+    RoleDialogComponent,
     ConfirmDialogComponent,
     InfoDialogComponent
   ]

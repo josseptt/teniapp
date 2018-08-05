@@ -1,0 +1,22 @@
+<div class="wrap-dialog">
+  <h1 mat-dialog-title>{{title}}</h1>
+
+  <mat-divider></mat-divider>
+
+  <form [formGroup]="form" (ngSubmit)="save()">
+    <div mat-dialog-content>
+      <mat-form-field>
+        <input matInput placeholder="Rol de Usuario" formControlName="txt_roleName">
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput placeholder="Descripcion" formControlName="txt_description">
+      </mat-form-field>
+    </div>
+
+    <div mat-dialog-actions>
+      <button mat-raised-button color="warn" (click)="onNoClick()">Cancelar</button>
+      <button [disabled]="!form.valid" mat-raised-button color="primary" cdkFocusInitial>Guardar</button>
+    </div>
+  </form>
+</div>
