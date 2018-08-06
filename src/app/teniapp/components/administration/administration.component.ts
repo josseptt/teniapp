@@ -7,8 +7,8 @@ import {MatDialog, MatPaginator, MatSort, MatTableDataSource} from '@angular/mat
 import {RoleService} from '../../services/role.service';
 import {ConfirmDialogComponent} from '../dialogs/confirm-dialog/confirm-dialog.component';
 import {InfoDialogComponent} from '../dialogs/info-dialog/info-dialog.component';
-import {ColorDialogComponent} from '../product/color-dialog/color-dialog.component';
 import {RoleDialogComponent} from './role-dialog/role-dialog.component';
+import {PermissionDialogComponent} from './permission-dialog/permission-dialog.component';
 
 @Component({
   selector: 'app-administration',
@@ -58,7 +58,7 @@ export class AdministrationComponent implements OnInit {
   }
 
   getPermissions() {
-    this.roleService.permissionList().then((data: any[]) => {
+    this.roleService.rolePermissionList().then((data: any[]) => {
       this.elementPermission = data;
       this.dataSourcePermission = new MatTableDataSource<Permission>(this.elementPermission);
       this.dataSourcePermission.paginator = this.permissionPaginator;
@@ -164,19 +164,21 @@ export class AdministrationComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if (result !== null) {
-        let role = {
-          roleName: result.roleName,
-          description: result.description
-        };
+      if (result != undefined) {
+        if (result !== null) {
+          let role = {
+            roleName: result.roleName,
+            description: result.description
+          };
 
-        this.roleService.addRole(role).then((data: any) => {
-          this.getRoles();
-        }, (err) => {
-          this.dialog.open(InfoDialogComponent, {
-            width: '450px', data: 'El rol de usuario: ' + role.roleName + ' ya existe.'
+          this.roleService.addRole(role).then((data: any) => {
+            this.getRoles();
+          }, (err) => {
+            this.dialog.open(InfoDialogComponent, {
+              width: '450px', data: 'El rol de usuario: ' + role.roleName + ' ya existe.'
+            });
           });
-        });
+        }
       }
     });
   }
@@ -220,7 +222,6 @@ export class AdministrationComponent implements OnInit {
         });
 
         dialogRef.afterClosed().subscribe(result => {
-          console.log(result);
           if (result) {
             this.roleService.deleteRole(this.idSelected).then((data: any) => {
               this.dialog.open(InfoDialogComponent, {
@@ -241,10 +242,46 @@ export class AdministrationComponent implements OnInit {
   }
 
   insertPermission() {
+    const dialogRef = this.dialog.open(PermissionDialogComponent, {
+      width: '450px'
+    });
 
+    dialogRef.afterClosed().subscribe(result => {
+      if (result !== null && result !== undefined) {
+        console.log(result);
+        this.roleService.assignPermission(result).then((data: any) => {
+          this.getPermissions();
+        }, (err) => {
+          console.log(err);
+        });
+      }
+    });
   }
 
   deletePermission() {
+    this.roleService.getRolePermission(this.idSelected).then((data: any) => {
+      let rolePermission = data;
 
+      if (rolePermission.active) {
+        const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+          width: '450px', data: "Esta seguro que desea remover este permiso del rol: " + rolePermission.roleName + "?"
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+          if (result) {
+            this.roleService.removePermission(rolePermission.roleId, rolePermission.permissionId).then((data: any) => {
+              this.dialog.open(InfoDialogComponent, {
+                width: '450px', data: "Permiso Removido con Exito!"
+              });
+              this.getPermissions();
+            }, (err) => {
+              console.log(err);
+            });
+          }
+          this.selectPermission.clear();
+          this.idSelected = 0;
+        });
+      }
+    });
   }
 }

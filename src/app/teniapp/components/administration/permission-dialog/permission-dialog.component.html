@@ -1,0 +1,28 @@
+<div class="wrap-dialog">
+  <h1 mat-dialog-title>{{title}}</h1>
+
+  <mat-divider></mat-divider>
+
+  <form [formGroup]="form" (ngSubmit)="save()">
+    <div mat-dialog-content>
+      <mat-select [(value)]="roleId" placeholder="Seleccione un Rol de Usuario" (selectionChange)="errorRole=false">
+        <mat-option *ngFor="let role of dataRole" [value]="role.id">
+          {{role.roleName}}
+        </mat-option>
+      </mat-select>
+
+      <mat-select [(value)]="permissionId" placeholder="Seleccione un Permiso" (selectionChange)="errorPermission=false">
+        <mat-option *ngFor="let permission of dataPermission" [value]="permission.id">
+          {{permission.permissionName}}
+        </mat-option>
+      </mat-select>
+    </div>
+
+    <div mat-dialog-actions>
+      <div [hidden]="!errorRole" class="msg-error"><p>Seleccione un Rol !</p></div>
+      <div [hidden]="!errorPermission" class="msg-error"><p>Seleccione un Permiso !</p></div>
+      <button mat-raised-button color="warn" (click)="onNoClick()">Cancelar</button>
+      <button [disabled]="!form.valid" mat-raised-button color="primary" cdkFocusInitial>Guardar</button>
+    </div>
+  </form>
+</div>

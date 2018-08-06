@@ -1,0 +1,73 @@
+<div class="wrap-dialog">
+  <h1 mat-dialog-title>{{title}}</h1>
+
+  <mat-divider></mat-divider>
+
+  <form [formGroup]="form" (ngSubmit)="save()">
+    <mat-dialog-content>
+      <mat-form-field>
+        <input matInput type="text" placeholder="Identificacion" formControlName="txt_identification">
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput type="text" placeholder="Nombres" formControlName="txt_firstName">
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput type="text" placeholder="Apellidos" formControlName="txt_lastName">
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput type="date" placeholder="Fecha de Nacimiento" formControlName="txt_birthDate">
+      </mat-form-field>
+
+      <mat-radio-group>
+        <mat-radio-button value="M">Masculino</mat-radio-button>
+        <mat-radio-button value="F">Femenino</mat-radio-button>
+      </mat-radio-group>
+
+      <mat-select [(value)]="distritoId" placeholder="Seleccione un Distrito" (selectionChange)="errorDistrito=false">
+        <mat-option *ngFor="let distrito of distritoList" [value]="distrito.id">
+          {{distrito.name}}
+        </mat-option>
+      </mat-select>
+
+      <mat-form-field>
+        <input matInput type="text" placeholder="Direccion" formControlName="txt_direction">
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput type="number" placeholder="N° Telefonico" formControlName="txt_celPhone">
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput type="text" placeholder="Imagen/Foto" formControlName="txt_image">
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput type="text" placeholder="Nombre de Usuario" formControlName="txt_username">
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput type="password" placeholder="Contraseña" formControlName="txt_password">
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput type="email" placeholder="Correo Electronico" formControlName="txt_email">
+      </mat-form-field>
+    </mat-dialog-content>
+
+    <mat-select [(value)]="roleId" placeholder="Seleccione un Rol de Usuario" (selectionChange)="errorRole=false">
+      <mat-option *ngFor="let role of roleList" [value]="role.id">
+        {{role.roleName}}
+      </mat-option>
+    </mat-select>
+
+    <div mat-dialog-actions>
+      <div [hidden]="!errorRole" class="msg-error"><p>Seleccione un Rol !</p></div>
+      <div [hidden]="!errorDistrito" class="msg-error"><p>Seleccione un Distrito !</p></div>
+      <button mat-raised-button color="warn" (click)="onNoClick()">Cancelar</button>
+      <button [disabled]="!form.valid" mat-raised-button color="primary" cdkFocusInitial>Guardar</button>
+    </div>
+  </form>
+</div>

@@ -87,9 +87,23 @@ export class RoleService {
    * PERMISSION
    */
 
-  permissionList() {
+  rolePermissionList() {
     return new Promise((resolve, reject) => {
       this.http.get('http://' + constants.URL + ':8100/api/v1/role/permission/all').subscribe((res: any) => {
+        console.log('from server success');
+        console.log(res);
+        resolve(res);
+      }, (err) => {
+        console.log('from server error');
+        console.log(err);
+        reject(err);
+      });
+    });
+  }
+
+  permissionList() {
+    return new Promise((resolve, reject) => {
+      this.http.get('http://' + constants.URL + ':8100/api/v1/permission/all').subscribe((res: any) => {
         console.log('from server success');
         console.log(res);
         resolve(res);
@@ -104,6 +118,20 @@ export class RoleService {
   getPermission(id: number) {
     return new Promise((resolve, reject) => {
       this.http.get('http://' + constants.URL + ':8100/api/v1/permission/get/' + id).subscribe((res: any) => {
+        console.log('from server success');
+        console.log(res);
+        resolve(res);
+      }, (err) => {
+        console.log('from server error');
+        console.log(err);
+        reject(err);
+      });
+    });
+  }
+
+  getRolePermission(id: number) {
+    return new Promise((resolve, reject) => {
+      this.http.get('http://' + constants.URL + ':8100/api/v1/role/permission/' + id).subscribe((res: any) => {
         console.log('from server success');
         console.log(res);
         resolve(res);
@@ -146,6 +174,52 @@ export class RoleService {
   deletePermission(id: number) {
     return new Promise((resolve, reject) => {
       this.http.get('http://' + constants.URL + ':8100/api/v1/permission/delete/' + id).subscribe((res: any) => {
+        console.log('from server success');
+        console.log(res);
+        resolve(res);
+      }, (err) => {
+        console.log('from server error');
+        console.log(err);
+        reject(err);
+      });
+    });
+  }
+
+  assignPermission(rolePermission: any) {
+    return new Promise((resolve, reject) => {
+      this.http.post('http://' + constants.URL + ':8100/api/v1/role/assignpermission', rolePermission).subscribe((res: any) => {
+        console.log('from server success');
+        console.log(res);
+        resolve(res);
+      }, (err) => {
+        console.log('from server error');
+        console.log(err);
+        reject(err);
+      });
+    });
+  }
+
+  removePermission(idrole: number, idpermission: number) {
+    return new Promise((resolve, reject) => {
+      this.http.get('http://' + constants.URL + ':8100/api/v1/role/removepermission/' + idrole + '/' + idpermission).subscribe((res: any) => {
+        console.log('from server success');
+        console.log(res);
+        resolve(res);
+      }, (err) => {
+        console.log('from server error');
+        console.log(err);
+        reject(err);
+      });
+    });
+  }
+
+  /**
+   * USERS
+   */
+
+  usersList() {
+    return new Promise((resolve, reject) => {
+      this.http.get('http://' + constants.URL + ':8100/api/v1/users/all').subscribe((res: any) => {
         console.log('from server success');
         console.log(res);
         resolve(res);

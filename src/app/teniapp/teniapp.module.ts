@@ -27,6 +27,9 @@ import { PurchaseComponent } from './components/purchase/purchase.component';
 import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
 import { SalesComponent } from './components/sales/sales.component';
 import { RoleDialogComponent } from './components/administration/role-dialog/role-dialog.component';
+import { PermissionDialogComponent } from './components/administration/permission-dialog/permission-dialog.component';
+import { UserPageComponent } from './components/administration/user-page/user-page.component';
+import { UserDialogComponent } from './components/administration/user-dialog/user-dialog.component';
 
 const routes: Routes = [
   { path: '', component: DashboardSidenavComponent},
@@ -65,7 +68,10 @@ const routes: Routes = [
     PurchaseComponent,
     EditProfileComponent,
     SalesComponent,
-    RoleDialogComponent
+    RoleDialogComponent,
+    PermissionDialogComponent,
+    UserPageComponent,
+    UserDialogComponent
   ],
   providers: [
     {
@@ -83,6 +89,8 @@ const routes: Routes = [
     ProductModelDialogComponent,
     ProductDialogComponent,
     RoleDialogComponent,
+    PermissionDialogComponent,
+    UserDialogComponent,
     ConfirmDialogComponent,
     InfoDialogComponent
   ]

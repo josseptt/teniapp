@@ -2,7 +2,7 @@
   <mat-card>
     <mat-card-header>
       <mat-card-title>
-        Roles de Usuario
+        Administracion de Roles de Usuario
       </mat-card-title>
     </mat-card-header>
 
@@ -105,6 +105,22 @@
           <button mat-raised-button color="warn" [disabled]="idSelected == 0" (click)="deletePermission()"><mat-icon>clear</mat-icon>Eliminar</button>
         </mat-tab>
       </mat-tab-group>
+    </mat-card-content>
+  </mat-card>
+
+  <br>
+
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>
+        Administracion de Usuarios
+      </mat-card-title>
+    </mat-card-header>
+
+    <mat-divider></mat-divider>
+
+    <mat-card-content>
+      <app-user-page></app-user-page>
     </mat-card-content>
   </mat-card>
 </div>
