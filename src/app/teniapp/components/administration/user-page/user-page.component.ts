@@ -4,6 +4,7 @@ import {SelectionModel} from '@angular/cdk/collections';
 import {MatDialog, MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import {RoleService} from '../../../services/role.service';
 import {UserDialogComponent} from '../user-dialog/user-dialog.component';
+import {EmployeesService} from '../../../services/employees.service';
 
 @Component({
   selector: 'app-user-page',
@@ -25,7 +26,8 @@ export class UserPageComponent implements OnInit {
   @ViewChild('userSort') userSort: MatSort;
   @ViewChild('userPaginator') userPaginator: MatPaginator;
 
-  constructor(public roleService: RoleService, public dialog: MatDialog) { }
+  constructor(public roleService: RoleService, public dialog: MatDialog,
+              public employeesService: EmployeesService) { }
 
   ngOnInit() {
     this.roleService.usersList().then((data: any[]) => {
@@ -62,7 +64,20 @@ export class UserPageComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result);
+      if (result !== undefined && result !== null) {
+        console.log(result);
+
+        this.employeesService.addEmployees(result.employees).then((data: any) => {
+          console.log(data);
+          result.users.employees.id = data.id;
+
+          this.employeesService.addUsers(result.users).then((data: any) => {
+            console.log('save success');
+          });
+        });
+      } else {
+        console.log(result);
+      }
     });
   }
 
