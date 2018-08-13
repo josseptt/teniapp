@@ -60,6 +60,16 @@ export class EmployeesService {
     });
   }
 
+  assignRole(usersRole) {
+    return new Promise((resolve, reject) => {
+      this.http.post('http://' + constants.URL + ':8100/api/v1/users/assignrole', usersRole).subscribe((res: any) => {
+        resolve(res);
+      }, (err) => {
+        reject(err);
+      });
+    });
+  }
+
   /**
    * DIRECTIONS
    */

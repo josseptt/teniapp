@@ -30,6 +30,10 @@ export class UserPageComponent implements OnInit {
               public employeesService: EmployeesService) { }
 
   ngOnInit() {
+    this.getUsers();
+  }
+
+  getUsers() {
     this.roleService.usersList().then((data: any[]) => {
       this.elementUser = data;
       this.dataSourceUser = new MatTableDataSource<UsersRole>(this.elementUser);
@@ -65,18 +69,28 @@ export class UserPageComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result !== undefined && result !== null) {
-        console.log(result);
-
         this.employeesService.addEmployees(result.employees).then((data: any) => {
-          console.log(data);
+          console.log(data.id);
           result.users.employees.id = data.id;
+          console.log(result.users.employees.id);
 
           this.employeesService.addUsers(result.users).then((data: any) => {
-            console.log('save success');
+            let usersRole = {
+              users: {
+                id: data.id
+              },
+              role: result.role
+            };
+
+
+            this.employeesService.assignRole(usersRole).then((data) => {
+              console.log('success');
+              this.getUsers();
+            });
           });
         });
       } else {
-        console.log(result);
+        console.log('Insert Error');
       }
     });
   }

@@ -5,7 +5,6 @@ import {Distrito} from '../../../models/distrito';
 import {Role} from '../../../models/role';
 import {EmployeesService} from '../../../services/employees.service';
 import {RoleService} from '../../../services/role.service';
-import {until} from 'selenium-webdriver';
 
 @Component({
   selector: 'app-user-dialog',
@@ -39,7 +38,7 @@ export class UserDialogComponent implements OnInit {
       txt_identification: '',
       txt_firstName: ['', Validators.required],
       txt_lastName: ['', Validators.required],
-      txt_birthDate: [{value: '', disabled: true}],
+      txt_birthDate: [{value: '', disabled: true}, Validators.required],
       txt_gender: '',
       txt_direction: '',
       txt_celPhone: '',
@@ -104,9 +103,14 @@ export class UserDialogComponent implements OnInit {
           }
         };
 
+        let role = {
+          id: this.roleId
+        };
+
         let data = {
           employees: employees,
-          users: users
+          users: users,
+          role: role
         };
 
         this.dialogRef.close(data);
